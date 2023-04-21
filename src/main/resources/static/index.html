@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+<body>
+
+    Лоъ
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Природный навигатор</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="main">
+        <div class="form">
+            <form th:action="@{/{}}" th:method="GET">
+
+
+
+                <div>
+                    <input type="range" min="0" max="5" th:value="${}">
+                </div>
+                <div>
+                    <input type="range" min="0" max="5" th:value="${}">
+                </div>
+                <div>
+                    <input type="range" min="0" max="5" th:value="${}">
+                </div>
+                <div>
+                    <input type="range" min="0" max="5" th:value="${}">
+                </div>
+                <div>
+                    <input type="range" min="0" max="5" th:value="${}">
+                </div>
+
+
+                <div>
+                    <input class="form-check-input" type="checkbox" name="" id="" th:checked="${}">
+                </div>
+                <div>
+                    <input class="form-check-input" type="checkbox" name="" id="" th:checked="${}">
+                </div>
+                <div>
+                    <input class="form-check-input" type="checkbox" name="" id="" th:checked="${}">
+                </div>
+                <div>
+                    <input class="form-check-input" type="checkbox" name="" id="" th:checked="${}">
+                </div>
+                <div>
+                    <input class="form-check-input" type="checkbox" name="" id="" th:checked="${}">
+                </div>
+                <div>
+                    <input class="form-check-input" type="checkbox" name="" id="" th:checked="${}">
+                </div>
+
+                <div>
+                    <input class="" type="text" name="" id="" th:value="${}">
+                </div>
+                <div>
+                    <input class="" type="text" name="" id="" th:value="${}">
+                </div>
+
+
+                <label>
+                    Семья
+                    <input class="form-check-input" type="checkbox" name="family" id="family" th:checked="${family}">
+                </label>
+
+                <!--<input type="hidden" name="family" value="0">-->
+                <div>
+                    Молодёжь <input class="form-check-input" type="checkbox" name="youth" id="youth" th:checked="${youth}">
+                </div>
+                <div> Старые друзья <input class="form-check-input" type="checkbox" name="old_friends" d id="old_friends" th:checked="${old_friends} "> </div>
+                <div> Одиночный отдых <input class="form-check-input" type="checkbox" name="the_individual" id="the_individual" th:checked="${the_individual}"> </div>
+                <div> Дети до 7 лет <input class="form-check-input" type="checkbox" name="number_of_children_under_7_years_old" id="number_of_children_under_7_years_old" th:checked="${number_of_children_under_7_years_old}"> </div>
+                <div> Летний отдых <input class="form-check-input" type="checkbox" name="rest_time_summer" id="rest_time_summer" th:checked="${rest_time_summer}"> </div>
+                <div> Зимний отдых <input class="form-check-input" type="checkbox" name="rest_time_wdecimaler" id="rest_time_wdecimaler" th:checked="${rest_time_wdecimaler}"> </div>
+                <div> Стоимость отдыха <input class="form-check-input" type="checkbox" name="rest_cost" id="rest_cost" th:checked="${rest_cost}"> </div>
+                <div> Очень близкий <input class="form-check-input" type="checkbox" name="far_distance_1" id="far_distance_1" th:checked="${far_distance_1}"> </div>
+                <div> Близкий <input class="form-check-input" type="checkbox" name="far_distance_2" id="far_distance_2" th:checked="${far_distance_2}"> </div>
+                <div> Средне дальний <input class="form-check-input" type="checkbox" name="far_distance_3" id="far_distance_3" th:checked="${far_distance_3}"> </div>
+                <div> Далеко <input class="form-check-input" type="checkbox" name="far_distance_4" id="far_distance_4" th:checked="${far_distance_4}"> </div>
+                <div> Очень далеко <input class="form-check-input" type="checkbox" name="far_distance_5" id="far_distance_5" th:checked="${far_distance_5}"> </div>
+                <div> Прогулки <input class="form-check-input" type="checkbox" name="walk" id="walk" th:checked="${walk}"> </div>
+                <div> Прогулки по маршрутам <input class="form-check-input" type="checkbox" name="traversal_on_route" id="traversal_on_route" th:checked="${traversal_on_route}"> </div>
+                <div> Поход с ночёвкой <input class="form-check-input" type="checkbox" name="overnight_hike" id="overnight_hike" th:checked="${overnight_hike}"> </div>
+                <div> Рыбалка <input class="form-check-input" type="checkbox" name="fishing" id="fishing" th:checked="${fishing}"> </div>
+                <div> Велопрогулки <input class="form-check-input" type="checkbox" name="bike_trip" id="bike_trip" th:checked="${bike_trip}"> </div>
+                <div> Лыжная ходьба <input class="form-check-input" type="checkbox" name="ski_walk" id="ski_walk" th:checked="${ski_walk}"> </div>
+                <div> Горжнолыжное катание <input class="form-check-input" type="checkbox" name="alpine_skiing" id="alpine_skiing" th:checked="${alpine_skiing}"> </div>
+                <div> Отдых у реки и водоёма <input class="form-check-input" type="checkbox" name="rest_by_a_river_body_of_water" id="rest_by_a_river_body_of_water" th:checked="${rest_by_a_river_body_of_water}"> </div>
+                <div> Сбор ягод <input class="form-check-input" type="checkbox" name="pick_berries" id="pick_berries" th:checked="${pick_berries}"> </div>
+                <div> Сбор грибов <input class="form-check-input" type="checkbox" name="mushroom_collection" id="mushroom_collection" th:checked="${mushroom_collection}"> </div>
+                <div> Сбор трав <input class="form-check-input" type="checkbox" name="collection_of_herbs_and_other_gifts_of_nature" id="collection_of_herbs_and_other_gifts_of_nature" th:checked="${collection_of_herbs_and_other_gifts_of_nature}"> </div>
+                <div> Прогулки по горным маршрутам <input class="form-check-input" type="checkbox" name="movement_along_mountain_routes" id="movement_along_mountain_routes" th:checked="${movement_along_mountain_routes}"> </div>
+                <div> Проживание в кемпинге <input class="form-check-input" type="checkbox" name="camping_accommodation" id="camping_accommodation" th:checked="${camping_accommodation}"> </div>
+                <div> Проживание в глемпинге <input class="form-check-input" type="checkbox" name="glamping_accommodation" id="glamping_accommodation" th:checked="${glamping_accommodation}"> </div>
+                <div> Рафтинг по реке <input class="form-check-input" type="checkbox" name="rafting_on_the_river" id="rafting_on_the_river" th:checked="${rafting_on_the_river}"> </div>
+                <div> Байдарки, Лодки <input class="form-check-input" type="checkbox" name="active_movement_on_water_kayak_row_boat" id="active_movement_on_water_kayak_row_boat" th:checked="${active_movement_on_water_kayak_row_boat}"> </div>
+                <div> Активный отдых <input class="form-check-input" type="checkbox" name="active_rest" id="active_rest" th:checked="${active_rest}"> </div>
+                <div> Пассивный отдых <input class="form-check-input" type="checkbox" name="passive_rest" id="passive_rest" th:checked="${passive_rest}"> </div>
+                <div> Восстановление здоровья <input class="form-check-input" type="checkbox" name="health_restoration" id="health_restoration" th:checked="${health_restoration}"> </div>
+                <div> Здоровый образ жизни <input class="form-check-input" type="checkbox" name="healthy_lifestyle" id="healthy_lifestyle" th:checked="${healthy_lifestyle}"> </div>
+                <div> Физические нагрузки <input class="form-check-input" type="checkbox" name="physical_load" id="physical_load" th:checked="${physical_load}"> </div>
+                <div> Яркие впечатления <input class="form-check-input" type="checkbox" name="bright_impressions" id="bright_impressions" th:checked="${bright_impressions}"> </div>
+                <div> Релакс <input class="form-check-input" type="checkbox" name="relaxation" id="relaxation" th:checked="${relaxation}"> </div>
+                <div> Смена обстановки, перезагрузка <input class="form-check-input" type="checkbox" name="reload_state_change_environment" id="reload_state_change_environment" th:checked="${reload_state_change_environment}"> </div>
+                <div> Одиночество <input class="form-check-input" type="checkbox" name="be_alone_alone_there_where_there_is_nobody" id="be_alone_alone_there_where_there_is_nobody" th:checked="${be_alone_alone_there_where_there_is_nobody}"> </div>
+                <div> Уровень комфорта 1 <input class="form-check-input" type="checkbox" name="comfort_level_1" id="comfort_level_1" th:checked="${comfort_level_1}"> </div>
+                <div> Уровень комфорта 2 <input class="form-check-input" type="checkbox" name="comfort_level_2" id="comfort_level_2" th:checked="${comfort_level_2}"> </div>
+                <div> Уровень комфорта 3 <input class="form-check-input" type="checkbox" name="comfort_level_3" id="comfort_level_3" th:checked="${comfort_level_3}"> </div>
+                <div> Уровень комфорта 4 <input class="form-check-input" type="checkbox" name="comfort_level_4" id="comfort_level_4" th:checked="${comfort_level_4}"> </div>
+                <div> Уровень комфорта 5 <input class="form-check-input" type="checkbox" name="comfort_level_5" id="comfort_level_5" th:checked="${comfort_level_5}"> </div>
+
+
+                <input type="submit" >
+            </form>
+        </div>
+
+        <div class="results">
+            <div class="card"  th:each="hotel: ${hotels}" style="padding-bottom: 2%">
+                <h2 th:text= ${hotel.getName} style="padding-right: 2%"> hotel</h2>
+                <a th:href="${hotel.getWeb_site}" class="btn btn-primary" style="align-self: flex-start">Сайт</a>
+
+                <div class="img_desc">
+                    <div class="image" th:each="photo: ${hotel.getPhotoList[0]}">
+                        <img th:src="${photo.link}" height="200">
+                    </div>
+
+                    <p class="description" th:text="${hotel.getDescription}">
+                        <!--<img th:hrc="@{${hotel.}}">-->
+                </div>
+
+                <!--<a th:href="${hotel.getWeb_site}" class="btn btn-primary">Сайт</a>-->
+
+            </div>
+
+
+            <div class="card" style="width: 100%;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Сайт</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
