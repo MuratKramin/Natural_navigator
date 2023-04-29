@@ -4,12 +4,19 @@ package com.nat_nav.natural_navigator.controllers;
 import com.nat_nav.natural_navigator.entity.Hotel;
 import com.nat_nav.natural_navigator.repositories.HotelRepository;
 import com.nat_nav.natural_navigator.repositories.PhotoRepository;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import static java.lang.Math.sqrt;
 
 @Controller
 public class FirstController {
@@ -46,8 +53,6 @@ public class FirstController {
 
         int count = 1;
         model.addAttribute("count",count);
-
-
         model.addAttribute("qty",qty);
         model.addAttribute("days",days);
         model.addAttribute("campaign",campaign);
@@ -68,10 +73,10 @@ public class FirstController {
         model.addAttribute("cost_of_stay_per_day",cost_of_stay_per_day);
 
 
-        System.out.println("campaign:"+campaign);
+        //System.out.println("campaign:"+campaign);
 
         int family  = (campaign!=null&&campaign.equals("family")) ? 1:0;
-        System.out.println("family:"+family);
+        //System.out.println("family:"+family);
         int the_youth  = (campaign!=null&&campaign.equals("the_youth")) ? 1:0;
         int old_friends  = (campaign!=null&&campaign.equals("old_friends")) ? 1:0;
 
@@ -82,8 +87,6 @@ public class FirstController {
         table_tennis  = (table_tennis!=null) ? "1":"0";
         tennis  = (tennis!=null) ? "1":"0";
         cycling  = (cycling!=null) ? "1":"0";*/
-
-
         /*if (children == null) children=0;
         if (active_recreation_on_the_water == null) active_recreation_on_the_water=0;
         if (fishing == null)fishing =0;
@@ -94,12 +97,6 @@ public class FirstController {
         if ( == null) =0;
         if ( == null) =0;
         if ( == null) =0;
-
-
-
-
-
-
         volleyball
                 table_tennis
         tennis
@@ -107,7 +104,7 @@ public class FirstController {
         distance_from_Kazan
                 cost_of_stay_per_day*/
 
-        System.out.println("family:"+family);
+        /*System.out.println("family:"+family);
         System.out.println(":"+children);
         System.out.println(the_youth);
         System.out.println(old_friends);
@@ -124,12 +121,9 @@ public class FirstController {
         System.out.println(tennis);
         System.out.println(cycling);
         System.out.println(distance_from_Kazan);
-        System.out.println(cost_of_stay_per_day);
+        System.out.println(cost_of_stay_per_day);*/
 
-        if(comfort==0){
-            model.addAttribute("hotels",hotelRepository.SortById());
-        } else
-        model.addAttribute("hotels",hotelRepository.findBestHotels(
+        List<Hotel>BestHotels=hotelRepository.findBestHotels(
                 family,
                 children,
                 the_youth,
@@ -147,10 +141,126 @@ public class FirstController {
                 tennis,
                 cycling,
                 distance_from_Kazan,
-                cost_of_stay_per_day,1,1,1,1,1,qty,days));
+                cost_of_stay_per_day,1,1,1,1,1,qty,days);
+        for(Hotel hotel: BestHotels){
+            hotel.setTotal(hotel.getFamily()*family +
+                    hotel.getChildren()*sqrt(children)+
+                    hotel.getTheYouth()*the_youth+
+                    hotel.getOldFriends()*old_friends+
 
+                    hotel.getComfort()*comfort+
+                    hotel.getDistance()*distance+
+                    hotel.getPrice()*price+
+                    hotel.getActivity()*activity+
+                    hotel.getSafety()*safety+
+
+                    hotel.getActiveRecreationOnTheWater()*active_recreation_on_the_water+
+                    hotel.getFishing()*fishing+
+                    hotel.getFootball()*football+
+                    hotel.getVolleyball()*volleyball+
+                    hotel.getTableTennis()*table_tennis+
+                    hotel.getTennis()*tennis+
+                    hotel.getCycling()*cycling);
+        }
+
+        if(comfort==0){
+            model.addAttribute("hotels",hotelRepository.SortById());
+        } else
+        model.addAttribute("hotels",BestHotels/*hotelRepository.findBestHotels(
+                family,
+                children,
+                the_youth,
+                old_friends,
+                comfort,
+                distance,
+                price,
+                activity,
+                safety,
+                active_recreation_on_the_water,
+                fishing,
+                football,
+                volleyball,
+                table_tennis,
+                tennis,
+                cycling,
+                distance_from_Kazan,
+                cost_of_stay_per_day,1,1,1,1,1,qty,days)*/);
+
+        model.addAttribute("topHotels",hotelRepository.findBestHotels(
+                family,
+                children,
+                the_youth,
+                old_friends,
+                comfort,
+                distance,
+                price,
+                activity,
+                safety,
+                active_recreation_on_the_water,
+                fishing,
+                football,
+                volleyball,
+                table_tennis,
+                tennis,
+                cycling,
+                distance_from_Kazan,
+                cost_of_stay_per_day,1,1,1,1,1,qty,days).subList(0,3));
         //model.addAttribute("hotels", hotelRepository.findBestHotels(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1));
         //model.addAttribute("hotels",hotelRepository.findAll());
+
+        System.out.println(hotelRepository.getTotal(
+                family,
+                children,
+                the_youth,
+                old_friends,
+                comfort,
+                distance,
+                price,
+                activity,
+                safety,
+                active_recreation_on_the_water,
+                fishing,
+                football,
+                volleyball,
+                table_tennis,
+                tennis,
+                cycling,
+                distance_from_Kazan,
+                cost_of_stay_per_day,1,1,1,1,1,qty,days,1));
+
+        HashMap<Double,Hotel> HotelTotal=new HashMap<>() ;
+        for(Hotel hotel:BestHotels){
+            System.out.println(hotel.getId());
+            HotelTotal.put(hotelRepository.getTotal(family,
+                    children,
+                    the_youth,
+                    old_friends,
+                    comfort,
+                    distance,
+                    price,
+                    activity,
+                    safety,
+                    active_recreation_on_the_water,
+                    fishing,
+                    football,
+                    volleyball,
+                    table_tennis,
+                    tennis,
+                    cycling,
+                    distance_from_Kazan,
+                    cost_of_stay_per_day,1,1,1,1,1,qty,days,hotel.getId()),hotel);
+        }
+
+        Map<Double, Hotel> SortedBestHotels = new TreeMap<>(HotelTotal).descendingMap();
+
+        for(Map.Entry<Double,Hotel> pair: SortedBestHotels.entrySet()){
+
+            System.out.println("Печать Хэшмапа\n");
+            System.out.println(pair.getKey());
+            System.out.println(pair.getValue().getName());
+
+
+        }
         return "index";
     }
 

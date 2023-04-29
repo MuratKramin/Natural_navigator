@@ -2,6 +2,7 @@ package com.nat_nav.natural_navigator.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.hibernate.annotations.Formula;
 
 import java.util.List;
 
@@ -39,11 +40,196 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel_pic")
     private List<Photo> photoList;
 
-    public Hotel(){
 
+
+    @Column(name = "family")
+    private int family;
+
+    @Column(name = "children")
+    private int children;
+
+    @Column(name = "the_youth")
+    private int theYouth;
+
+    @Column(name = "old_friends")
+    private int oldFriends;
+
+    @Column(name = "comfort")
+    private int comfort;
+
+    @Column(name = "distance")
+    private int distance;
+
+    @Column(name = "price")
+    private int price;
+
+    @Column(name = "activity")
+    private int activity;
+
+    @Column(name = "safety")
+    private int safety;
+
+    @Column(name = "active_recreation_on_the_water")
+    private int activeRecreationOnTheWater;
+
+    @Column(name = "fishing")
+    private int fishing;
+
+    @Column(name = "football")
+    private int football;
+
+    @Column(name = "volleyball")
+    private int volleyball;
+
+    @Column(name = "table_tennis")
+    private int tableTennis;
+
+    @Column(name = "tennis")
+    private int tennis;
+
+    @Column(name = "cycling")
+    private int cycling;
+
+    @Column(name = "total")
+    private double total;
+
+    public double getTotal() {
+        return total;
     }
 
-    public Hotel(int id, String name, String country, String region, String city, String street, String house, String description, String phone_num, String email, String web_site, List<Photo> photoList) {
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public int getFamily() {
+        return family;
+    }
+
+    public void setFamily(int family) {
+        this.family = family;
+    }
+
+    public int getChildren() {
+        return children;
+    }
+
+    public void setChildren(int children) {
+        this.children = children;
+    }
+
+    public int getTheYouth() {
+        return theYouth;
+    }
+
+    public void setTheYouth(int theYouth) {
+        this.theYouth = theYouth;
+    }
+
+    public int getOldFriends() {
+        return oldFriends;
+    }
+
+    public void setOldFriends(int oldFriends) {
+        this.oldFriends = oldFriends;
+    }
+
+    public int getComfort() {
+        return comfort;
+    }
+
+    public void setComfort(int comfort) {
+        this.comfort = comfort;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getActivity() {
+        return activity;
+    }
+
+    public void setActivity(int activity) {
+        this.activity = activity;
+    }
+
+    public int getSafety() {
+        return safety;
+    }
+
+    public void setSafety(int safety) {
+        this.safety = safety;
+    }
+
+    public int getActiveRecreationOnTheWater() {
+        return activeRecreationOnTheWater;
+    }
+
+    public void setActiveRecreationOnTheWater(int activeRecreationOnTheWater) {
+        this.activeRecreationOnTheWater = activeRecreationOnTheWater;
+    }
+
+    public int getFishing() {
+        return fishing;
+    }
+
+    public void setFishing(int fishing) {
+        this.fishing = fishing;
+    }
+
+    public int getFootball() {
+        return football;
+    }
+
+    public void setFootball(int football) {
+        this.football = football;
+    }
+
+    public int getVolleyball() {
+        return volleyball;
+    }
+
+    public void setVolleyball(int volleyball) {
+        this.volleyball = volleyball;
+    }
+
+    public int getTableTennis() {
+        return tableTennis;
+    }
+
+    public void setTableTennis(int tableTennis) {
+        this.tableTennis = tableTennis;
+    }
+
+    public int getTennis() {
+        return tennis;
+    }
+
+    public void setTennis(int tennis) {
+        this.tennis = tennis;
+    }
+
+    public int getCycling() {
+        return cycling;
+    }
+
+    public void setCycling(int cycling) {
+        this.cycling = cycling;
+    }
+
+    public Hotel(int id, String name, String country, String region, String city, String street, String house, String description, String phone_num, String email, String web_site, List<Photo> photoList, int family, int children, int theYouth, int oldFriends, int comfort, int distance, int price, int activity, int safety, int activeRecreationOnTheWater, int fishing, int football, int volleyball, int tableTennis, int tennis, int cycling, double total) {
         this.id = id;
         this.name = name;
         this.country = country;
@@ -56,7 +242,43 @@ public class Hotel {
         this.email = email;
         this.web_site = web_site;
         this.photoList = photoList;
+        this.family = family;
+        this.children = children;
+        this.theYouth = theYouth;
+        this.oldFriends = oldFriends;
+        this.comfort = comfort;
+        this.distance = distance;
+        this.price = price;
+        this.activity = activity;
+        this.safety = safety;
+        this.activeRecreationOnTheWater = activeRecreationOnTheWater;
+        this.fishing = fishing;
+        this.football = football;
+        this.volleyball = volleyball;
+        this.tableTennis = tableTennis;
+        this.tennis = tennis;
+        this.cycling = cycling;
+        this.total = total;
     }
+
+    public Hotel(){
+
+    }
+
+/*    public Hotel(int id, String name, String country, String region, String city, String street, String house, String description, String phone_num, String email, String web_site, List<Photo> photoList) {
+        this.id = id;
+        this.name = name;
+        this.country = country;
+        this.region = region;
+        this.city = city;
+        this.street = street;
+        this.house = house;
+        this.description = description;
+        this.phone_num = phone_num;
+        this.email = email;
+        this.web_site = web_site;
+        this.photoList = photoList;
+    }*/
 
     @Override
     public String toString() {
@@ -173,4 +395,6 @@ public class Hotel {
     }
 
     public List<Photo> getPhotofromSecond(){return photoList.subList(1,photoList.size());}
+
+
 }

@@ -324,6 +324,17 @@
 
         <div class="results">
 
+            <div th:each="topHotel: ${topHotels}" class="card" style="width: 18rem; border: aquamarine" >
+                <img th:src="${topHotel.getPhotoList[0].link}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <p th:text="${topHotel.getDescription}"></p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+
+
             <div class="card"  th:each="hotel,i: ${hotels}" style="padding-bottom: 2%">
                 <h2 style="padding-right: 2%"> <a th:href="${'/hotel?id='+hotel.getId}" th:text= "${i.index + 1}+'. '+${hotel.getName}" >
 
