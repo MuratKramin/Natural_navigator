@@ -11,10 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import static java.lang.Math.sqrt;
 
@@ -259,8 +256,17 @@ public class FirstController {
             System.out.println(pair.getKey());
             System.out.println(pair.getValue().getName());
 
-
         }
+        System.out.println("СПИСООООООК:::::");
+        System.out.println(SortedBestHotels.values());
+        System.out.println("----------------------------------------------------------");
+        System.out.println(BestHotels);
+        model.addAttribute("hotelTotal",SortedBestHotels);
+
+        HashMap<Integer, Integer> test=new HashMap<>();
+        test.put(1,1);
+        test.put(2,2);
+        model.addAttribute("test",test);
         return "index";
     }
 

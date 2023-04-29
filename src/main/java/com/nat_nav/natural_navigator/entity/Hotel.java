@@ -35,12 +35,31 @@ public class Hotel {
     private String email;
     @Column(name="web_site")
     private String web_site;
+    @Column(name = "short_description")
+    private String short_description;
+
+    @Column (name = "main_feature")
+    private String main_feature;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "hotel_pic")
     private List<Photo> photoList;
 
+    public String getShort_description() {
+        return short_description;
+    }
 
+    public void setShort_description(String short_description) {
+        this.short_description = short_description;
+    }
+
+    public String getMain_feature() {
+        return main_feature;
+    }
+
+    public void setMain_feature(String main_feature) {
+        this.main_feature = main_feature;
+    }
 
     @Column(name = "family")
     private int family;
@@ -229,7 +248,7 @@ public class Hotel {
         this.cycling = cycling;
     }
 
-    public Hotel(int id, String name, String country, String region, String city, String street, String house, String description, String phone_num, String email, String web_site, List<Photo> photoList, int family, int children, int theYouth, int oldFriends, int comfort, int distance, int price, int activity, int safety, int activeRecreationOnTheWater, int fishing, int football, int volleyball, int tableTennis, int tennis, int cycling, double total) {
+    public Hotel(int id, String name, String country, String region, String city, String street, String house, String description, String phone_num, String email, String web_site, String short_description, String main_feature, List<Photo> photoList, int family, int children, int theYouth, int oldFriends, int comfort, int distance, int price, int activity, int safety, int activeRecreationOnTheWater, int fishing, int football, int volleyball, int tableTennis, int tennis, int cycling, double total) {
         this.id = id;
         this.name = name;
         this.country = country;
@@ -241,6 +260,8 @@ public class Hotel {
         this.phone_num = phone_num;
         this.email = email;
         this.web_site = web_site;
+        this.short_description = short_description;
+        this.main_feature = main_feature;
         this.photoList = photoList;
         this.family = family;
         this.children = children;

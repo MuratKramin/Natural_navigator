@@ -324,58 +324,60 @@
 
         <div class="results">
 
-            <div th:each="topHotel: ${topHotels}" class="card" style="width: 18rem; border: aquamarine" >
+            <div th:each="topHotel: ${topHotels}" class="card" style="width: 33%; border-color: aquamarine; border-width: 10px" >
                 <img th:src="${topHotel.getPhotoList[0].link}" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <p th:text="${topHotel.getDescription}"></p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <h5 class="card-title" th:text="${topHotel.getName}"></h5>
+                    <!--<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                    <p th:text="${topHotel.getShort_description}"></p>
+                    <br>
+                    <strong><p th:text="${topHotel.getMain_feature}"></p></strong>
+                    <a th:href="${topHotel.getWeb_site}" class="btn btn-primary" style="align-self: flex-start">Сайт</a>
                 </div>
             </div>
 
 
-            <div class="card"  th:each="hotel,i: ${hotels}" style="padding-bottom: 2%">
-                <h2 style="padding-right: 2%"> <a th:href="${'/hotel?id='+hotel.getId}" th:text= "${i.index + 1}+'. '+${hotel.getName}" >
-
+            <div class="card"  th:each="hotel,i: ${hotelTotal}" style="padding-bottom: 2%">
+                <p th:text="${hotel.key}"></p>
+                <h2 style="padding-right: 2%"> <a th:href="${'/hotel?id='+hotel.value.getId}" th:text= "${i.index + 1}+'. '+${hotel.value.getName}" >
                 </a> </h2>
-                <a th:href="${hotel.getWeb_site}" class="btn btn-primary" style="align-self: flex-start">Сайт</a>
+                <a th:href="${hotel.value.getWeb_site}" class="btn btn-primary" style="align-self: flex-start">Сайт</a>
 
                 <div class="img_desc" >
 
 
-                    <div th:id="${hotel.id}" class="carousel  slide">
+                    <div th:id="${hotel.value.id}" class="carousel  slide">
                         <div class="carousel-inner">
 
-                            <div class="carousel-item active" th:each="photo: ${hotel.getPhotoList[0]}" >
+                            <div class="carousel-item active" th:each="photo: ${hotel.value.getPhotoList[0]}" >
                                 <img th:src="${photo.link}" height="300" >
                             </div>
 
-                            <div class="carousel-item" th:each="photo: ${hotel.getPhotofromSecond} " >
+                            <div class="carousel-item" th:each="photo: ${hotel.value.getPhotofromSecond} " >
                                 <img th:src="${photo.link}" height="300" >
                             </div>
                         </div>
-                        <button class="carousel-control-prev" type="button" th:data-bs-target="${'#' + hotel.id}" th:data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" th:data-bs-target="${'#' + hotel.value.id}" th:data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
-                        <button class="carousel-control-next" type="button" th:data-bs-target="${'#' + hotel.id}" th:data-bs-slide="next">
+                        <button class="carousel-control-next" type="button" th:data-bs-target="${'#' + hotel.value.id}" th:data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
 
                     </div>
 
-                    <div class="accordion" th:id="${'accordionExample' + hotel.id}">
+                    <div class="accordion" th:id="${'accordionExample' + hotel.value.id}">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" th:data-bs-target="${'#collapse' + hotel.id}" aria-expanded="true" th:aria-controls="${'collapse'+hotel.id}">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" th:data-bs-target="${'#collapse' + hotel.value.id}" aria-expanded="true" th:aria-controls="${'collapse'+hotel.value.id}">
                                     Описание
                                 </button>
                             </h2>
-                            <div th:id="${'collapse' + hotel.id}" class="accordion-collapse collapse show" th:data-bs-parent="${'#accordionExample' + hotel.id}">
+                            <div th:id="${'collapse' + hotel.value.id}" class="accordion-collapse collapse show" th:data-bs-parent="${'#accordionExample' + hotel.value.id}">
                                 <div class="accordion-body">
-                                    <p class="description" th:text="${hotel.getDescription}" style="padding-left: 10px">
+                                    <p class="description" th:text="${hotel.value.getDescription}" style="padding-left: 10px">
                                 </div>
                             </div>
                         </div>
@@ -384,8 +386,6 @@
 
 
                     <!--<p class="description" th:text="${hotel.getDescription}" style="padding-left: 10px">-->
-
-
                 </div>
             </div>
 
