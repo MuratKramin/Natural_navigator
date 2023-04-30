@@ -69,56 +69,13 @@ public class FirstController {
         model.addAttribute("distance_from_Kazan",distance_from_Kazan);
         model.addAttribute("cost_of_stay_per_day",cost_of_stay_per_day);
 
-
-        //System.out.println("campaign:"+campaign);
-
         int family  = (campaign!=null&&campaign.equals("family")) ? 1:0;
-        //System.out.println("family:"+family);
         int the_youth  = (campaign!=null&&campaign.equals("the_youth")) ? 1:0;
         int old_friends  = (campaign!=null&&campaign.equals("old_friends")) ? 1:0;
 
-        /*active_recreation_on_the_water  = (active_recreation_on_the_water!=null) ? "1":"0";
-        fishing  = (fishing!=null) ? "1":"0";
-        football  = (football!=null) ? "1":"0";
-        volleyball  = (volleyball!=null) ? "1":"0";
-        table_tennis  = (table_tennis!=null) ? "1":"0";
-        tennis  = (tennis!=null) ? "1":"0";
-        cycling  = (cycling!=null) ? "1":"0";*/
-        /*if (children == null) children=0;
-        if (active_recreation_on_the_water == null) active_recreation_on_the_water=0;
-        if (fishing == null)fishing =0;
-        if (football == null)football =0;
-        if ( == null) =0;
-        if ( == null) =0;
-        if ( == null) =0;
-        if ( == null) =0;
-        if ( == null) =0;
-        if ( == null) =0;
-        volleyball
-                table_tennis
-        tennis
-                cycling
-        distance_from_Kazan
-                cost_of_stay_per_day*/
 
-        /*System.out.println("family:"+family);
-        System.out.println(":"+children);
-        System.out.println(the_youth);
-        System.out.println(old_friends);
-        System.out.println(comfort);
-        System.out.println(distance);
-        System.out.println(price);
-        System.out.println(activity);
-        System.out.println(safety);
-        System.out.println(active_recreation_on_the_water);
-        System.out.println(fishing);
-        System.out.println(football);
-        System.out.println(volleyball);
-        System.out.println(table_tennis);
-        System.out.println(tennis);
-        System.out.println(cycling);
-        System.out.println(distance_from_Kazan);
-        System.out.println(cost_of_stay_per_day);*/
+
+
 
         List<Hotel>BestHotels=hotelRepository.findBestHotels(
                 family,
@@ -160,71 +117,6 @@ public class FirstController {
                     hotel.getCycling()*cycling);
         }
 
-        if(comfort==0){
-            model.addAttribute("hotels",hotelRepository.SortById());
-        } else
-        model.addAttribute("hotels",BestHotels/*hotelRepository.findBestHotels(
-                family,
-                children,
-                the_youth,
-                old_friends,
-                comfort,
-                distance,
-                price,
-                activity,
-                safety,
-                active_recreation_on_the_water,
-                fishing,
-                football,
-                volleyball,
-                table_tennis,
-                tennis,
-                cycling,
-                distance_from_Kazan,
-                cost_of_stay_per_day,1,1,1,1,1,qty,days)*/);
-
-        model.addAttribute("topHotels",hotelRepository.findBestHotels(
-                family,
-                children,
-                the_youth,
-                old_friends,
-                comfort,
-                distance,
-                price,
-                activity,
-                safety,
-                active_recreation_on_the_water,
-                fishing,
-                football,
-                volleyball,
-                table_tennis,
-                tennis,
-                cycling,
-                distance_from_Kazan,
-                cost_of_stay_per_day,1,1,1,1,1,qty,days).subList(0,3));
-        //model.addAttribute("hotels", hotelRepository.findBestHotels(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1));
-        //model.addAttribute("hotels",hotelRepository.findAll());
-
-        System.out.println(hotelRepository.getTotal(
-                family,
-                children,
-                the_youth,
-                old_friends,
-                comfort,
-                distance,
-                price,
-                activity,
-                safety,
-                active_recreation_on_the_water,
-                fishing,
-                football,
-                volleyball,
-                table_tennis,
-                tennis,
-                cycling,
-                distance_from_Kazan,
-                cost_of_stay_per_day,1,1,1,1,1,qty,days,1));
-
         HashMap<Double,Hotel> HotelTotal=new HashMap<>() ;
         for(Hotel hotel:BestHotels){
             System.out.println(hotel.getId());
@@ -249,24 +141,28 @@ public class FirstController {
         }
 
         Map<Double, Hotel> SortedBestHotels = new TreeMap<>(HotelTotal).descendingMap();
-
-        for(Map.Entry<Double,Hotel> pair: SortedBestHotels.entrySet()){
-
-            System.out.println("Печать Хэшмапа\n");
-            System.out.println(pair.getKey());
-            System.out.println(pair.getValue().getName());
-
-        }
-        System.out.println("СПИСООООООК:::::");
-        System.out.println(SortedBestHotels.values());
-        System.out.println("----------------------------------------------------------");
-        System.out.println(BestHotels);
         model.addAttribute("hotelTotal",SortedBestHotels);
 
-        HashMap<Integer, Integer> test=new HashMap<>();
-        test.put(1,1);
-        test.put(2,2);
-        model.addAttribute("test",test);
+        if(comfort==0){
+            model.addAttribute("hotels",hotelRepository.SortById());
+        } else{
+        model.addAttribute("hotels",BestHotels);
+        }
+
+        System.out.println("TOOOOOOOOOP3");
+        Map<Double,Hotel> TopF3=new TreeMap<>();
+        Iterator<Map.Entry<Double,Hotel>> iterator=SortedBestHotels.entrySet().iterator();
+        for(int i=0;i<3;i++){
+            Map.Entry<Double,Hotel> pair = iterator.next();
+            TopF3.put(pair.getKey(),pair.getValue());
+            System.out.println(pair.getValue().getName());
+        }
+        Map<Double,Hotel> Top3=new TreeMap<>(TopF3).descendingMap();
+
+        model.addAttribute("topHotels",Top3);
+        //model.addAttribute("hotels", hotelRepository.findBestHotels(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1));
+        //model.addAttribute("hotels",hotelRepository.findAll());
+
         return "index";
     }
 
