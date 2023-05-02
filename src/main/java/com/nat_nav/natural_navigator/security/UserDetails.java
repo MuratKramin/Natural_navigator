@@ -1,4 +1,4 @@
-/*
+
 package com.nat_nav.natural_navigator.security;
 
 import com.nat_nav.natural_navigator.entity.User;
@@ -48,5 +48,9 @@ public class UserDetails implements org.springframework.security.core.userdetail
     public boolean isEnabled() {
         return true;
     }
+
+    public User getUser(){
+        return this.user;
+    }
 }
-*/
+
