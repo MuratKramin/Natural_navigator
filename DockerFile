@@ -1,0 +1,4 @@
+FROM openjdk:17
+EXPOSE 8080
+COPY target/*.jar natural_navigator.jar
+ENTRYPOINT ["java","-jar","/natural_navigator.jar"]
