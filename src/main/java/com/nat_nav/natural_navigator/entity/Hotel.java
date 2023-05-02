@@ -108,7 +108,7 @@ public class Hotel {
 
     @Column(name = "cycling")
     private int cycling;
-
+/*
     @Column(name = "total")
     private double total;
 
@@ -118,7 +118,7 @@ public class Hotel {
 
     public void setTotal(double total) {
         this.total = total;
-    }
+    }*/
 
     public int getFamily() {
         return family;
@@ -248,7 +248,7 @@ public class Hotel {
         this.cycling = cycling;
     }
 
-    public Hotel(int id, String name, String country, String region, String city, String street, String house, String description, String phone_num, String email, String web_site, String short_description, String main_feature, List<Photo> photoList, int family, int children, int theYouth, int oldFriends, int comfort, int distance, int price, int activity, int safety, int activeRecreationOnTheWater, int fishing, int football, int volleyball, int tableTennis, int tennis, int cycling, double total) {
+    public Hotel(int id, String name, String country, String region, String city, String street, String house, String description, String phone_num, String email, String web_site, String short_description, String main_feature, List<Photo> photoList, int family, int children, int theYouth, int oldFriends, int comfort, int distance, int price, int activity, int safety, int activeRecreationOnTheWater, int fishing, int football, int volleyball, int tableTennis, int tennis, int cycling/*, double total*/) {
         this.id = id;
         this.name = name;
         this.country = country;
@@ -279,7 +279,7 @@ public class Hotel {
         this.tableTennis = tableTennis;
         this.tennis = tennis;
         this.cycling = cycling;
-        this.total = total;
+        /*this.total = total;*/
     }
 
     public Hotel(){

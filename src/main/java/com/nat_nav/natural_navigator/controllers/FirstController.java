@@ -96,7 +96,7 @@ public class FirstController {
                 cycling,
                 distance_from_Kazan,
                 cost_of_stay_per_day,1,1,1,1,1,qty,days);
-        for(Hotel hotel: BestHotels){
+        /*for(Hotel hotel: BestHotels){
             hotel.setTotal(hotel.getFamily()*family +
                     hotel.getChildren()*sqrt(children)+
                     hotel.getTheYouth()*the_youth+
@@ -115,7 +115,7 @@ public class FirstController {
                     hotel.getTableTennis()*table_tennis+
                     hotel.getTennis()*tennis+
                     hotel.getCycling()*cycling);
-        }
+        }*/
 
         HashMap<Double,Hotel> HotelTotal=new HashMap<>() ;
         for(Hotel hotel:BestHotels){
@@ -152,7 +152,7 @@ public class FirstController {
         System.out.println("TOOOOOOOOOP3");
         Map<Double,Hotel> TopF3=new TreeMap<>();
         Iterator<Map.Entry<Double,Hotel>> iterator=SortedBestHotels.entrySet().iterator();
-        for(int i=0;i<3;i++){
+        for(int i=0;i<3&& iterator.hasNext();i++){
             Map.Entry<Double,Hotel> pair = iterator.next();
             TopF3.put(pair.getKey(),pair.getValue());
             System.out.println(pair.getValue().getName());
