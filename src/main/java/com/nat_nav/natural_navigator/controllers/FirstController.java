@@ -2,18 +2,19 @@ package com.nat_nav.natural_navigator.controllers;
 
 
 import com.nat_nav.natural_navigator.entity.Hotel;
+import com.nat_nav.natural_navigator.entity.User;
 import com.nat_nav.natural_navigator.repositories.HotelRepository;
 import com.nat_nav.natural_navigator.repositories.PhotoRepository;
-import jakarta.persistence.criteria.CriteriaBuilder;
+import com.nat_nav.natural_navigator.services.RegistrationService;
+import com.nat_nav.natural_navigator.util.UserValidator;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-
-import static java.lang.Math.sqrt;
 
 @Controller
 public class FirstController {
@@ -21,6 +22,8 @@ public class FirstController {
     private HotelRepository hotelRepository;
     @Autowired
     private PhotoRepository photoRepository;
+
+
 
     @GetMapping("/findHotels")
     public String index(@RequestParam(value = "qty",required = false,defaultValue = "0") int qty,
@@ -181,5 +184,28 @@ public class FirstController {
         return "aboutUs";
     }
 
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
+    private final UserValidator userValidator;
+    public FirstController(UserValidator userValidator, RegistrationService registrationService) {
+        this.userValidator = userValidator;
+        this.registrationService = registrationService;
+    }
+    private final RegistrationService registrationService;
+    @GetMapping("/registration")
+    public String registration(@ModelAttribute("user") User user){
+        return "registration";
+    }
+    @PostMapping("/registration")
+    public String performRegistration(@ModelAttribute("user")@Valid User user, BindingResult bindingResult){
+        userValidator.validate(user,bindingResult);
+        if(bindingResult.hasErrors()){
+            return "/registration";
+        }
+        registrationService.register(user);
+        return "redirect:/login";
+    }
 
 }
