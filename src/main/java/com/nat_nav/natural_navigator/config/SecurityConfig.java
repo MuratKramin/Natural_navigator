@@ -49,7 +49,14 @@ public class SecurityConfig{
                 .formLogin().loginPage("/login")
                 .loginProcessingUrl("/process_login")
                 .defaultSuccessUrl("/findHotels",true)
-                .failureUrl("/login?error");
+                .failureUrl("/login?error")
+
+                .and()
+
+                .logout().logoutUrl("/logout")
+                .logoutSuccessUrl("/login");
+        
+
         return http.build();
     }
 
