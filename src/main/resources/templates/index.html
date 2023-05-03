@@ -360,7 +360,9 @@
 
 
             <div class="card"  th:each="hotel,i: ${hotelTotal}" style="padding-bottom: 2%;width: 99%">
-                <p th:text="${hotel.key}">Баллы по запросу:</p>
+                <div th:if="${comfort}">
+                    <p th:text="${hotel.key}">Баллы по запросу:</p>
+                </div>
                 <h2 style="padding-right: 2%"> <a th:href="${'/hotel?id='+hotel.value.getId}" th:text= "${i.index + 1}+'. '+${hotel.value.getName}" >
                 </a> </h2>
                 <a th:href="${hotel.value.getWeb_site}" class="btn btn-primary" style="align-self: flex-start">Сайт</a>

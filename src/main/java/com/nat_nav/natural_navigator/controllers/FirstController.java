@@ -157,12 +157,19 @@ public class FirstController {
         }
 
         Map<Double, Hotel> SortedBestHotels = new TreeMap<>(HotelTotal).descendingMap();
-        model.addAttribute("hotelTotal",SortedBestHotels);
+
+        HashMap<Double,Hotel> HotelsMapNoTotal=new HashMap<>() ;
+        System.out.println(hotelRepository.SortById().size());
+        for(Hotel hotel:hotelRepository.SortById()){
+            System.out.println(hotel.getName());
+            HotelsMapNoTotal.put((double)hotel.getId(),hotel);
+        }
+        System.out.println(HotelsMapNoTotal);
 
         if(comfort==0){
-            model.addAttribute("hotels",hotelRepository.SortById());
+            model.addAttribute("hotelTotal",HotelsMapNoTotal);
         } else{
-            model.addAttribute("hotels",BestHotels);
+            model.addAttribute("hotelTotal",SortedBestHotels);
         }
 
         System.out.println("TOOOOOOOOOP3");

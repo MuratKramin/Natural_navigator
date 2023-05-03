@@ -201,42 +201,46 @@
   <div class="reviews-list">
     <div class="rev" style="width: 100%">
       <div style="width: 20%">
-        User1
+
       </div>
       <div style="width: 80%">
-        Ужасно
+
       </div>
     </div>
   </div>
+
+
+
+  <div th:if="${auth}">
+    <form th:action="${'/hotel'+'?id='+hotel.id}" method="post" th:object="${new_residenceHistory}">
+      <input type="hidden" th:field="*{hotel_rev.id}" th:value="${hotel.id}" />
+      <div>
+        <label for="checkInDate">Check-in Date:</label>
+        <input type="date" id="checkInDate" th:field="*{checkInDate}" required>
+      </div>
+      <div>
+        <label for="checkOutDate">Check-out Date:</label>
+        <input type="date" id="checkOutDate" th:field="*{checkOutDate}" required>
+      </div>
+      <div>
+        <label for="totalCost">Total Cost:</label>
+        <input type="number" id="totalCost" th:field="*{totalCost}" required>
+      </div>
+      <div>
+        <label for="review">Review:</label>
+        <textarea id="review" th:field="*{review}" required></textarea>
+      </div>
+      <div>
+        <label for="grade">Grade:</label>
+        <input type="number" id="grade" th:field="*{grade}" min="1" max="5" required>
+      </div>
+      <button type="submit">Add Review</button>
+    </form>
+  </div>
+
 </div>
 
 
-<div th:if="${auth}">
-  <form th:action="${'/hotel'+'?id='+hotel.id}" method="post" th:object="${new_residenceHistory}">
-    <input type="hidden" th:field="*{hotel_rev.id}" th:value="${hotel.id}" />
-    <div>
-      <label for="checkInDate">Check-in Date:</label>
-      <input type="date" id="checkInDate" th:field="*{checkInDate}" required>
-    </div>
-    <div>
-      <label for="checkOutDate">Check-out Date:</label>
-      <input type="date" id="checkOutDate" th:field="*{checkOutDate}" required>
-    </div>
-    <div>
-      <label for="totalCost">Total Cost:</label>
-      <input type="number" id="totalCost" th:field="*{totalCost}" required>
-    </div>
-    <div>
-      <label for="review">Review:</label>
-      <textarea id="review" th:field="*{review}" required></textarea>
-    </div>
-    <div>
-      <label for="grade">Grade:</label>
-      <input type="number" id="grade" th:field="*{grade}" min="1" max="5" required>
-    </div>
-    <button type="submit">Add Review</button>
-  </form>
-</div>
 
 </body>
 </html>
