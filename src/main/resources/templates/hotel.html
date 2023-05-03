@@ -188,9 +188,16 @@
 
 <div class="reviews" style="margin: 0 auto;">
   <h2>Отзывы:</h2>
-  <div th:each="review: ${residenceHistory}">
-    <div th:text="${review.getReview}"> </div>
+
+
+  <div th:each="review: ${residenceHistory}" style="background-color: aqua;border-width: 10px;padding: 2%;">
+    <div style="display:flex">
+      <div th:text="${review.getUsers_rev().firstName}" style="padding: 2%"> </div>
+      <div th:text="${review.getReview}" style="padding: 2%"> </div>
+      <div th:text="${review.getGrade()}"style="padding: 2%"> </div>
+    </div>
   </div>
+
   <div class="reviews-list">
     <div class="rev" style="width: 100%">
       <div style="width: 20%">
@@ -205,41 +212,31 @@
 
 
 <div th:if="${auth}">
-  <form style="padding: 5%" th:object="${hotel}">
-    <label for="username">Введите имя пользователя: </label>
-    <input type="text" th:field="*{email}" id="username"/>
-    <!--<div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{email}">Username Error</div>-->
-    <br/>
-    <input type="submit" value="Отправить отзыв">
+  <form th:action="${'/hotel'+'?id='+hotel.id}" method="post" th:object="${new_residenceHistory}">
+    <input type="hidden" th:field="*{hotel_rev.id}" th:value="${hotel.id}" />
+    <div>
+      <label for="checkInDate">Check-in Date:</label>
+      <input type="date" id="checkInDate" th:field="*{checkInDate}" required>
+    </div>
+    <div>
+      <label for="checkOutDate">Check-out Date:</label>
+      <input type="date" id="checkOutDate" th:field="*{checkOutDate}" required>
+    </div>
+    <div>
+      <label for="totalCost">Total Cost:</label>
+      <input type="number" id="totalCost" th:field="*{totalCost}" required>
+    </div>
+    <div>
+      <label for="review">Review:</label>
+      <textarea id="review" th:field="*{review}" required></textarea>
+    </div>
+    <div>
+      <label for="grade">Grade:</label>
+      <input type="number" id="grade" th:field="*{grade}" min="1" max="5" required>
+    </div>
+    <button type="submit">Add Review</button>
   </form>
 </div>
-
-<form th:action="@{/hotel}" method="post" th:object="${new_residenceHistory}">
-  <!--<input type="hidden" th:field="*{hotel_rev.id}">-->
-  <!--<div>
-    <label for="checkInDate">Check-in Date:</label>
-    <input type="date" id="checkInDate" th:field="*{checkInDate}" required>
-  </div>
-  <div>
-    <label for="checkOutDate">Check-out Date:</label>
-    <input type="date" id="checkOutDate" th:field="*{checkOutDate}" required>
-  </div>
-  <div>
-    <label for="totalCost">Total Cost:</label>
-    <input type="number" id="totalCost" th:field="*{totalCost}" required>
-  </div>-->
-  <div>
-    <label for="review">Review:</label>
-    <textarea id="review" th:field="*{review}" required></textarea>
-  </div>
-  <!--<div>
-    <label for="grade">Grade:</label>
-    <input type="number" id="grade" th:field="*{grade}" min="1" max="5" required>
-  </div>-->
-  <button type="submit">Add Review</button>
-</form>
-
-
 
 </body>
 </html>

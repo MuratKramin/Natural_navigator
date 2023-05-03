@@ -7,6 +7,7 @@ import com.nat_nav.natural_navigator.entity.User;
 import com.nat_nav.natural_navigator.repositories.HotelRepository;
 import com.nat_nav.natural_navigator.repositories.PhotoRepository;
 import com.nat_nav.natural_navigator.repositories.ResidenceHistoryRepository;
+import com.nat_nav.natural_navigator.repositories.UserRepository;
 import com.nat_nav.natural_navigator.services.RegistrationService;
 import com.nat_nav.natural_navigator.util.UserValidator;
 import jakarta.validation.Valid;
@@ -31,6 +32,9 @@ public class FirstController {
 
     @Autowired
     private ResidenceHistoryRepository residenceHistoryRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
 
@@ -158,7 +162,7 @@ public class FirstController {
         if(comfort==0){
             model.addAttribute("hotels",hotelRepository.SortById());
         } else{
-        model.addAttribute("hotels",BestHotels);
+            model.addAttribute("hotels",BestHotels);
         }
 
         System.out.println("TOOOOOOOOOP3");
@@ -188,15 +192,18 @@ public class FirstController {
 
     @GetMapping("/hotel")
     public String hotel(@RequestParam(value = "id") int id, Model model){
+        System.out.println("get mappint hotel-----------------------");
+
         model.addAttribute("hotel",hotelRepository.getReferenceById(id));
         boolean auth = SecurityContextHolder.getContext().getAuthentication().getName()=="anonymousUser";
         model.addAttribute("auth",!auth);
 
         List<ResidenceHistory> residenceHistory = hotelRepository.getReferenceById(id).getResidenceHistoryList();
+
         ResidenceHistory new_residenceHistory= new ResidenceHistory();
         model.addAttribute("new_residenceHistory",new_residenceHistory);
         model.addAttribute("residenceHistory",residenceHistory);
-
+        System.out.println("get mappint hotel-----------------------");
         return "hotel";
     }
 
@@ -233,13 +240,16 @@ public class FirstController {
 
     @PostMapping("/hotel")
     public String addReview(@RequestParam(value = "id") int hotelId,
-                            @ModelAttribute("new_residenceHistory") ResidenceHistory residenceHistory, Authentication authentication) {
+                            @ModelAttribute("new_residenceHistory") ResidenceHistory new_residenceHistory, Authentication authentication) {
+        System.out.println("HotelId:");
         System.out.println(hotelId);
-        /*residenceHistory.setHotel_rev(hotelRepository.getReferenceById(hotelId));
-        residenceHistory.setUsers_rev((User) authentication.getPrincipal());
+        Optional<User> user = userRepository.findByEmail(authentication.getName());
 
-        residenceHistoryRepository.save(residenceHistory);*/
+        new_residenceHistory.setHotel_rev(hotelRepository.getReferenceById(hotelId));
+        new_residenceHistory.setUsers_rev(user.get());
 
+        residenceHistoryRepository.save(new_residenceHistory);
+        System.out.println("---------------------------------------------");
         return "redirect:/hotel?id="+hotelId;
     }
 
