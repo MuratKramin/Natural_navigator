@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Hotel</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 
@@ -188,6 +188,9 @@
 
 <div class="reviews" style="margin: 0 auto;">
   <h2>Отзывы:</h2>
+  <div th:each="review: ${residenceHistory}">
+    <div th:text="${review.getReview}"> </div>
+  </div>
   <div class="reviews-list">
     <div class="rev" style="width: 100%">
       <div style="width: 20%">
@@ -200,10 +203,43 @@
   </div>
 </div>
 
-<form style="padding: 5%">
-  <input type="text">
-  <input type="submit" value="Отправить отзыв">
+
+<div th:if="${auth}">
+  <form style="padding: 5%" th:object="${hotel}">
+    <label for="username">Введите имя пользователя: </label>
+    <input type="text" th:field="*{email}" id="username"/>
+    <!--<div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{email}">Username Error</div>-->
+    <br/>
+    <input type="submit" value="Отправить отзыв">
+  </form>
+</div>
+
+<form th:action="@{/hotel}" method="post" th:object="${new_residenceHistory}">
+  <!--<input type="hidden" th:field="*{hotel_rev.id}">-->
+  <!--<div>
+    <label for="checkInDate">Check-in Date:</label>
+    <input type="date" id="checkInDate" th:field="*{checkInDate}" required>
+  </div>
+  <div>
+    <label for="checkOutDate">Check-out Date:</label>
+    <input type="date" id="checkOutDate" th:field="*{checkOutDate}" required>
+  </div>
+  <div>
+    <label for="totalCost">Total Cost:</label>
+    <input type="number" id="totalCost" th:field="*{totalCost}" required>
+  </div>-->
+  <div>
+    <label for="review">Review:</label>
+    <textarea id="review" th:field="*{review}" required></textarea>
+  </div>
+  <!--<div>
+    <label for="grade">Grade:</label>
+    <input type="number" id="grade" th:field="*{grade}" min="1" max="5" required>
+  </div>-->
+  <button type="submit">Add Review</button>
 </form>
+
+
 
 </body>
 </html>

@@ -21,7 +21,7 @@ public class ResidenceHistory {
     @Basic
     @Column(name = "total_cost")
     private double totalCost;
-    @Basic
+
     @Column(name = "review")
     private String review;
     @Basic

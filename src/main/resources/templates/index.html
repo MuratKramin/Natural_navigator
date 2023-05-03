@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -224,13 +224,17 @@
 
 
 
-                <a href="/logout">
+                <a th:if="${auth}" href="/logout">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationModal">
                         Выйти
                     </button>
                 </a>
 
 
+                <div th:if="${auth}">
+                    <p>You are authenticated.</p>
+
+                </div>
 
             </div>
         </div>

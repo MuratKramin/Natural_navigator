@@ -2,13 +2,19 @@ package com.nat_nav.natural_navigator.controllers;
 
 
 import com.nat_nav.natural_navigator.entity.Hotel;
+import com.nat_nav.natural_navigator.entity.ResidenceHistory;
 import com.nat_nav.natural_navigator.entity.User;
 import com.nat_nav.natural_navigator.repositories.HotelRepository;
 import com.nat_nav.natural_navigator.repositories.PhotoRepository;
+import com.nat_nav.natural_navigator.repositories.ResidenceHistoryRepository;
 import com.nat_nav.natural_navigator.services.RegistrationService;
 import com.nat_nav.natural_navigator.util.UserValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +28,9 @@ public class FirstController {
     private HotelRepository hotelRepository;
     @Autowired
     private PhotoRepository photoRepository;
+
+    @Autowired
+    private ResidenceHistoryRepository residenceHistoryRepository;
 
 
 
@@ -166,6 +175,13 @@ public class FirstController {
         //model.addAttribute("hotels", hotelRepository.findBestHotels(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1, 1,1,1,1,1));
         //model.addAttribute("hotels",hotelRepository.findAll());
 
+        boolean auth = SecurityContextHolder.getContext().getAuthentication().getName()=="anonymousUser";
+        model.addAttribute("auth",!auth);
+
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println(name);
+        System.out.println(auth);
+
         return "index";
     }
 
@@ -173,6 +189,13 @@ public class FirstController {
     @GetMapping("/hotel")
     public String hotel(@RequestParam(value = "id") int id, Model model){
         model.addAttribute("hotel",hotelRepository.getReferenceById(id));
+        boolean auth = SecurityContextHolder.getContext().getAuthentication().getName()=="anonymousUser";
+        model.addAttribute("auth",!auth);
+
+        List<ResidenceHistory> residenceHistory = hotelRepository.getReferenceById(id).getResidenceHistoryList();
+        ResidenceHistory new_residenceHistory= new ResidenceHistory();
+        model.addAttribute("new_residenceHistory",new_residenceHistory);
+        model.addAttribute("residenceHistory",residenceHistory);
 
         return "hotel";
     }
@@ -208,7 +231,17 @@ public class FirstController {
         return "redirect:/login";
     }
 
+    @PostMapping("/hotel")
+    public String addReview(@RequestParam(value = "id") int hotelId,
+                            @ModelAttribute("new_residenceHistory") ResidenceHistory residenceHistory, Authentication authentication) {
+        System.out.println(hotelId);
+        /*residenceHistory.setHotel_rev(hotelRepository.getReferenceById(hotelId));
+        residenceHistory.setUsers_rev((User) authentication.getPrincipal());
 
+        residenceHistoryRepository.save(residenceHistory);*/
+
+        return "redirect:/hotel?id="+hotelId;
+    }
 
 
 
