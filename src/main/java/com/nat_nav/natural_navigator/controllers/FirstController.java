@@ -9,12 +9,11 @@ import com.nat_nav.natural_navigator.repositories.PhotoRepository;
 import com.nat_nav.natural_navigator.repositories.ResidenceHistoryRepository;
 import com.nat_nav.natural_navigator.repositories.UserRepository;
 import com.nat_nav.natural_navigator.services.RegistrationService;
+import com.nat_nav.natural_navigator.services.NewResidenceHistoryService;
 import com.nat_nav.natural_navigator.util.UserValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -159,9 +158,9 @@ public class FirstController {
         Map<Double, Hotel> SortedBestHotels = new TreeMap<>(HotelTotal).descendingMap();
 
         HashMap<Double,Hotel> HotelsMapNoTotal=new HashMap<>() ;
-        System.out.println(hotelRepository.SortById().size());
+        //System.out.println(hotelRepository.SortById().size());
         for(Hotel hotel:hotelRepository.SortById()){
-            System.out.println(hotel.getName());
+            //System.out.println(hotel.getName());
             HotelsMapNoTotal.put((double)hotel.getId(),hotel);
         }
         System.out.println(HotelsMapNoTotal);
@@ -178,7 +177,7 @@ public class FirstController {
         for(int i=0;i<3&& iterator.hasNext();i++){
             Map.Entry<Double,Hotel> pair = iterator.next();
             TopF3.put(pair.getKey(),pair.getValue());
-            System.out.println(pair.getValue().getName());
+            //System.out.println(pair.getValue().getName());
         }
         Map<Double,Hotel> Top3=new TreeMap<>(TopF3).descendingMap();
 
@@ -190,8 +189,8 @@ public class FirstController {
         model.addAttribute("auth",!auth);
 
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(name);
-        System.out.println(auth);
+        //System.out.println(name);
+        //System.out.println(auth);
 
         return "index";
     }
@@ -206,11 +205,18 @@ public class FirstController {
         model.addAttribute("auth",!auth);
 
         List<ResidenceHistory> residenceHistory = hotelRepository.getReferenceById(id).getResidenceHistoryList();
+        model.addAttribute("residenceHistory",residenceHistory);
+
 
         ResidenceHistory new_residenceHistory= new ResidenceHistory();
         model.addAttribute("new_residenceHistory",new_residenceHistory);
-        model.addAttribute("residenceHistory",residenceHistory);
+
+        //residenceHistoryRepository.save(new_residenceHistory);
+
         System.out.println("get mappint hotel-----------------------");
+
+        //System.out.println(residenceHistory.findRatings());
+
         return "hotel";
     }
 
@@ -226,9 +232,10 @@ public class FirstController {
         return "login";
     }
     private final UserValidator userValidator;
-    public FirstController(UserValidator userValidator, RegistrationService registrationService) {
+    public FirstController(UserValidator userValidator, RegistrationService registrationService, NewResidenceHistoryService newResidenceHistoryService) {
         this.userValidator = userValidator;
         this.registrationService = registrationService;
+        this.newResidenceHistoryService = newResidenceHistoryService;
     }
     private final RegistrationService registrationService;
     @GetMapping("/registration")
@@ -245,17 +252,38 @@ public class FirstController {
         return "redirect:/login";
     }
 
+    private final NewResidenceHistoryService newResidenceHistoryService;
+
     @PostMapping("/hotel")
     public String addReview(@RequestParam(value = "id") int hotelId,
-                            @ModelAttribute("new_residenceHistory") ResidenceHistory new_residenceHistory, Authentication authentication) {
+                            @ModelAttribute("new_residenceHistory") ResidenceHistory new_residenceHistory, Authentication authentication/*,Model model*/) {
+        //int hotelId=new_residenceHistory.getHotel_rev().getId();
+
         System.out.println("HotelId:");
         System.out.println(hotelId);
         Optional<User> user = userRepository.findByEmail(authentication.getName());
 
+        //ResidenceHistory new_residenceHistory2= new ResidenceHistory(new_residenceHistory.getId(), new_residenceHistory.getCheckInDate(),new_residenceHistory.getCheckOutDate(), new_residenceHistory.getTotalCost(), new_residenceHistory.getReview(), new_residenceHistory.getGrade(), new_residenceHistory.getUsers_rev(),new_residenceHistory.getHotel_rev());
+
+        //new_residenceHistory2=new_residenceHistory;
+        //model.addAttribute("new_residenceHistory",new_residenceHistory);
+
         new_residenceHistory.setHotel_rev(hotelRepository.getReferenceById(hotelId));
         new_residenceHistory.setUsers_rev(user.get());
 
-        residenceHistoryRepository.save(new_residenceHistory);
+
+        //residenceHistoryRepository.save(new_residenceHistory);
+        System.out.println("hotel");
+        System.out.println(hotelRepository.getReferenceById(hotelId).getName());
+        System.out.println("User");
+        System.out.println(userRepository.getReferenceById(hotelId).getEmail());
+
+        residenceHistoryRepository.insert(new_residenceHistory.getCheckInDate(),new_residenceHistory.getCheckOutDate(),
+                new_residenceHistory.getTotalCost(),new_residenceHistory.getReview(),new_residenceHistory.getGrade(),user.get().getId(),hotelId);
+
+        //newResidenceHistoryService.add_new(new_residenceHistory);
+
+        //residenceHistoryRepository.save();
         System.out.println("---------------------------------------------");
         return "redirect:/hotel?id="+hotelId;
     }

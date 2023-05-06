@@ -8,9 +8,10 @@ import java.sql.Date;
 @Entity
 @Table(name = "residence_history", schema = "public", catalog = "natural_navigator_bd")
 public class ResidenceHistory {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Basic
     @Column(name = "check_in_date")
