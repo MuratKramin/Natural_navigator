@@ -189,12 +189,22 @@
 <div class="reviews" style="margin: 0 auto;">
   <h2>Отзывы:</h2>
 
+  <div class="card"  style="background-color: burlywood;margin-bottom: 2%;">
+    <div style="display:flex; justify-content: space-around" >
+      <h3>Имя</h3>
+      <h3>Комментарии</h3>
+      <h3>Оценка</h3>
+    </div>
+  </div>
 
-  <div th:each="review: ${residenceHistory}" style="background-color: aqua;border-width: 10px;padding: 2%;">
-    <div style="display:flex">
-      <div th:text="${review.getUsers_rev().firstName}" style="padding: 2%"> </div>
-      <div th:text="${review.getReview}" style="padding: 2%"> </div>
-      <div th:text="${review.getGrade()}"style="padding: 2%"> </div>
+
+  <div class="card" th:each="review: ${residenceHistory}" style="background-color: blanchedalmond;margin-bottom: 2%;">
+    <div style="display:flex; justify-content: space-around;"  >
+
+      <h5><div th:text="${review.getUsers_rev().firstName}" > </div></h5>
+      <h5><div th:text="${review.getReview}" > </div></h5>
+      <h5><div th:text="${review.getGrade()}"> </div></h5>
+
     </div>
   </div>
 
@@ -211,7 +221,7 @@
 
 
 
-  <div th:if="${auth}">
+  <div th:if="${auth}" style="margin-bottom: 5%">
     <form th:action="${'/hotel'+'?id='+hotel.id}" method="post" th:object="${new_residenceHistory}">
       <input type="hidden" th:field="*{hotel_rev.id}" th:value="${hotel.id}" />
       <div>

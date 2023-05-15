@@ -18,21 +18,19 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class RecommendationService {
     private final HotelRepository hotelRepository;
     private final UserRepository userRepository;
-    private final ResidenceHistoryRepository residenceHistory;
+    private final ResidenceHistoryRepository residenceHistoryRepository;
 
     @Autowired
-    public RecommendationService(HotelRepository hotelRepository, UserRepository userRepository, ResidenceHistoryRepository residenceHistory) {
+    public RecommendationService(HotelRepository hotelRepository, UserRepository userRepository, ResidenceHistoryRepository residenceHistoryRepository) {
         this.hotelRepository = hotelRepository;
         this.userRepository = userRepository;
-        this.residenceHistory = residenceHistory;
+        this.residenceHistoryRepository = residenceHistoryRepository;
     }
 
 
@@ -40,27 +38,40 @@ public class RecommendationService {
     public List<Hotel> getRecommendedHotels(int userId){
         List<Hotel> recommendedHotels=new ArrayList<>();
 
-        int n=10;
+        int n=100;
         int nUsers=userRepository.findAll().size();
-        int nItems=hotelRepository.findAll().size();
-        int rank = 4;
+        int nItems= hotelRepository.findAll().size();
+        int rank = 8;
         double alpha=0.01;
-        double beta =0.1;
-        List<Rating> ratings=new LinkedList<>();
+        double beta =0.01;
+        List<Rating> ratings=new ArrayList<>(nUsers);
 
-        for (User user:userRepository.findAll()) {
+        /*for (User user:userRepository.findAll()) {
             for (ResidenceHistory visit:user.getResidenceHistoryList()) {
                 ratings.add(new Rating(user.getId(),visit.getHotel_rev().getId(),visit.getGrade()));
             }
-        }
+        }*/
         /*ratings.add(new Rating(1,5,4));
         ratings.add(new Rating(2,1,3));
         ratings.add(new Rating(3,2,5));
         ratings.add(new Rating(4,3,3));
         ratings.add(new Rating(5,4,0));*/
 
+        for(Object[] obj : residenceHistoryRepository.findRatings()){
 
-        SparseRealMatrix R = ALSUtils.toMatrix(ratings);
+            System.out.print(obj[0]);
+            System.out.print(obj[1]);
+            System.out.print(obj[2]);
+            ratings.add(new Rating((int) obj[0],(int) obj[1],(Long)obj[2]));
+
+        }
+
+
+        SparseRealMatrix R = ALSUtils.toMatrix(ratings,nUsers,nItems);
+        System.out.println("---");
+        System.out.println(R.getColumnDimension());
+        System.out.println(R.getRowDimension());
+        System.out.println("---");
         LatentFactors factors = LatentFactors.create(nUsers, nItems, rank);
         BatchALS als = new BatchALS(R, rank, alpha, beta);
         for(int iter = 0 ; iter < n ; iter++) {
@@ -79,19 +90,28 @@ public class RecommendationService {
             System.out.println("");
         }
 
-        List<List<Rating>> ratingsList=new ArrayList<>();
+        /*List<List<Rating>> ratingsList=new ArrayList<>();
         for(User user: userRepository.findAll()){
             for(ResidenceHistory residenceHistory: user.getResidenceHistoryList()){
 
             }
-        }
-
-        residenceHistory.findRatings();
+        }*/
+        //residenceHistory.findRatings();
+        Map<Double,Integer> recMap = new TreeMap<>();
 
         for(int i =0;i<approximation.getColumnDimension();i++){
-            recommendedHotels.add(hotelRepository.getReferenceById(i));
+            //recommendedHotels.add(hotelRepository.getReferenceById(i));
+            recMap.put(approximation.getEntry(userId-1,i),i+1);
         }
+        Map<Double,Integer> recMapDesc = new TreeMap<>(recMap).descendingMap();
+        System.out.println(recMapDesc);
         //Collections.sort(recommendedHotels,Compa);
+        Iterator<Map.Entry<Double,Integer>> iterator=recMapDesc.entrySet().iterator();
+        for(int i=0;iterator.hasNext();i++){
+            Map.Entry<Double,Integer> pair = iterator.next();
+            recommendedHotels.add(hotelRepository.getReferenceById(pair.getValue()));
+        }
+
 
         return recommendedHotels;
     }

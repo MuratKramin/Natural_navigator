@@ -120,7 +120,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/aboutUs">О нас</a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <!--<li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Dropdown
                         </a>
@@ -130,15 +130,15 @@
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="#">Something else here</a></li>
                         </ul>
-                    </li>
-                    <li class="nav-item">
+                    </li>-->
+                    <!--<li class="nav-item">
                         <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>
+                    </li>-->
                 </ul>
-                <form class="d-flex">
+                <!--<form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
+                </form>-->
 
                 <!--<button class="btn btn-outline-success" type="button" >Войти</button>-->
 
@@ -341,7 +341,7 @@
         </div>
 
         <div class="results">
-            <div style="width: 99%"><h3>Три лучших варианта для вас:</h3></div>
+            <div th:if="${comfort!=0}" style="width: 99%"><h3>Три лучших варианта для вас:</h3></div>
             <div th:each="topHotel: ${topHotels}" class="card" style="width: 33%; border-color: aquamarine; border-width: 10px" >
                 <h5>Баллы по запросу:</h5>
                 <h5 th:text="${topHotel.key}"></h5>
@@ -413,6 +413,17 @@
                 </div>
             </div>
 
+        </div>
+
+
+        <div th:if="${auth}" class="recomendations">
+            <h2>Рекомендации:</h2>
+            <div th:each="recHotel: ${recommededHotels}" style="padding: 5%">
+                <div th:text="${recHotel.getName()}"></div>
+                <div>
+                    <img th:src="${recHotel.getPhotoList()[0].getLink()}">
+                </div>
+            </div>
         </div>
 
     </div>

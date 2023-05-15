@@ -4,10 +4,8 @@ package com.nat_nav.natural_navigator.controllers;
 import com.nat_nav.natural_navigator.entity.Hotel;
 import com.nat_nav.natural_navigator.entity.ResidenceHistory;
 import com.nat_nav.natural_navigator.entity.User;
-import com.nat_nav.natural_navigator.repositories.HotelRepository;
-import com.nat_nav.natural_navigator.repositories.PhotoRepository;
-import com.nat_nav.natural_navigator.repositories.ResidenceHistoryRepository;
-import com.nat_nav.natural_navigator.repositories.UserRepository;
+import com.nat_nav.natural_navigator.repositories.*;
+import com.nat_nav.natural_navigator.services.RecommendationService;
 import com.nat_nav.natural_navigator.services.RegistrationService;
 import com.nat_nav.natural_navigator.services.NewResidenceHistoryService;
 import com.nat_nav.natural_navigator.util.UserValidator;
@@ -35,6 +33,12 @@ public class FirstController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RecommendationService recommendationService;
+
+    /*@Autowired
+    private AggregatedDataRepository aggregatedDataRepository;*/
+
 
 
     @GetMapping("/findHotels")
@@ -60,7 +64,7 @@ public class FirstController {
                         @RequestParam(value = "distance_from_Kazan",required = false,defaultValue = "0") int distance_from_Kazan,
                         @RequestParam(value = "cost_of_stay_per_day",required = false,defaultValue = "0") int cost_of_stay_per_day,
 
-                        Model model
+                        Model model,Authentication authentication
                         ){
 
         int count = 1;
@@ -192,6 +196,15 @@ public class FirstController {
         //System.out.println(name);
         //System.out.println(auth);
 
+        if(authentication!=null){
+            Optional<User> user = userRepository.findByEmail(authentication.getName());
+            model.addAttribute("recommededHotels",recommendationService.getRecommendedHotels(user.get().getId()));
+        } else {
+            model.addAttribute("recommededHotels",recommendationService.getRecommendedHotels(4));
+        }
+
+
+
         return "index";
     }
 
@@ -204,8 +217,7 @@ public class FirstController {
         boolean auth = SecurityContextHolder.getContext().getAuthentication().getName()=="anonymousUser";
         model.addAttribute("auth",!auth);
 
-        List<ResidenceHistory> residenceHistory = hotelRepository.getReferenceById(id).getResidenceHistoryList();
-        model.addAttribute("residenceHistory",residenceHistory);
+        model.addAttribute("residenceHistory",hotelRepository.getReferenceById(id).getResidenceHistoryList());
 
 
         ResidenceHistory new_residenceHistory= new ResidenceHistory();
@@ -215,7 +227,25 @@ public class FirstController {
 
         System.out.println("get mappint hotel-----------------------");
 
-        //System.out.println(residenceHistory.findRatings());
+        System.out.println("RAAAAAAAAAAAAAAAAAtings:");
+        //System.out.println((residenceHistoryRepository.findRatings().get(0))[2]);
+        //System.out.println(aggregatedDataRepository.findRatings());
+        //System.out.println(residenceHistoryRepository.findRatings().get(0));
+        for(Object[] obj : residenceHistoryRepository.findRatings()){
+
+            /*System.out.println(obj[0]);
+            Integer a = (Integer) obj[0];
+            System.out.println();
+            System.out.println(a);*/
+
+            System.out.print(obj[0]);
+            System.out.print(obj[1]);
+            System.out.println(obj[2]);
+
+        }
+        System.out.println("--------------------------------");
+
+        recommendationService.getRecommendedHotels(1);
 
         return "hotel";
     }
@@ -273,10 +303,10 @@ public class FirstController {
 
 
         //residenceHistoryRepository.save(new_residenceHistory);
-        System.out.println("hotel");
-        System.out.println(hotelRepository.getReferenceById(hotelId).getName());
-        System.out.println("User");
-        System.out.println(userRepository.getReferenceById(hotelId).getEmail());
+        //System.out.println("hotel");
+        //System.out.println(hotelRepository.getReferenceById(hotelId).getName());
+        //System.out.println("User");
+//        System.out.println(userRepository.getReferenceById(hotelId).getEmail());
 
         residenceHistoryRepository.insert(new_residenceHistory.getCheckInDate(),new_residenceHistory.getCheckOutDate(),
                 new_residenceHistory.getTotalCost(),new_residenceHistory.getReview(),new_residenceHistory.getGrade(),user.get().getId(),hotelId);

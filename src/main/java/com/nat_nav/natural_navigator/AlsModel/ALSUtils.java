@@ -14,10 +14,13 @@ public class ALSUtils {
      * @param ratings a {@link List} of {@link Rating}.
      * @return A sparse ratings matrix ({@link SparseRealMatrix}).
      */
-    public static SparseRealMatrix toMatrix(List<Rating> ratings) {
+    public static SparseRealMatrix toMatrix(List<Rating> ratings,int a,int b) {
 
-        final int max_user = maxUser(ratings);
-        final int max_item = maxItem(ratings);
+        int max_user = maxUser(ratings);
+        int max_item = maxItem(ratings);
+
+        max_user=a;
+        max_item=b;
 
         final SparseRealMatrix ratingsMatrix = new OpenMapRealMatrix(max_user, max_item);
         for (Rating rating : ratings) {

@@ -3,36 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/registration}" th:object="${user}">
-    <label for="username">Введите имя пользователя: </label>
-    <input type="text" th:field="*{email}" id="username"/>
-    <!--<div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{email}">Username Error</div>-->
-    <br/>
+<style>
+    .main{
+        display: flex;
+        padding-top: 2%;
+        padding-right: 3%;
+        justify-content: center;
+    }
+    .form{
+        padding-left: 5%;
+        padding-right: 2%;
+        margin-right:1%;
+    }
+    .results{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .block{
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        padding: 2%;
+        border: 2px solid black;
+    }
 
-    <label for="f-name">Введите имя: </label>
-    <input type="text" th:field="*{firstName}" id="f-name"/>
-    <!--<div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Year of birth Error-->
-    </div>
-    <label for="l-name">Введите фамилию: </label>
-    <input type="text" th:field="*{lastName}" id="l-name"/>
-    <!--<div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Year of birth Error-->
-    </div>
+    .card{
+        display: flex;
+        flex-wrap: wrap;
+        /*width: 100%;*/
+        padding: 2%;
 
-    <label for="otch">Введите Отчесво: </label>
-    <input type="text" th:field="*{otchestvo}" id="otch"/>
-    <!--<div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Year of birth Error-->
-    </div>
+    }
 
-    <br/>
-    <label for="password">Введите пароль: </label>
-    <input type="password" th:field="*{password}" id="password"/>
-    <!--<div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>-->
-    <br/>
-    <input type="submit" value="Sign up!"/>
-</form>
+    .image{
+        padding-right: 10px;
+    }
+
+
+    .img_desc{
+        display: flex;
+        padding-top: 2%;
+    }
+
+    img{
+        object-fit: cover;
+        width: 400px;
+        height: 400px;
+
+        border-radius: 10px;
+        box-shadow: 0 0 10px #444;
+        margin: 1%;
+    }
+
+    /* Footer */
+    .footer {
+        padding-top: 3%;
+        background-color: #343434;
+    }
+
+    .footer h4 {
+        color: #ccc;
+        text-transform: uppercase;
+        font-size: 16px;
+        border-bottom: 1px solid #666;
+        padding-bottom: 3px;
+    }
+
+    .footer a {
+        text-decoration: none;
+        transition: all .3s;
+    }
+
+    .footer a:hover {
+        color: #fff;
+        text-decoration: underline;
+    }
+
+    .footer a, .footer li {
+        color: #c8c8c8;
+    }
+
+    .footer li a {
+        display: block;
+    }
+
+    .footer-icons a {
+        display: inline-block;
+        margin-right: 15px;
+        font-size: 20px;
+    }
+    /* Footer */
+
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><!--<img src="https://sun9-60.userapi.com/impg/yDW09ThZm9mH92FMVJoQjLSsJX8RecNoUEZTHQ/oPLsVZ38OiE.jpg?size=885x461&quality=95&sign=cf10cd34589a7c7469a294919a11f728&type=album" width="30%" height="auto">-->Природный навигатор</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/findHotels">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/aboutUs">О нас</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
+            <!--<button class="btn btn-outline-success" type="button" >Войти</button>-->
+
+            <!-- Button trigger modal -->
+            <a href="/login">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Войти
+                </button>
+            </a>
+
+            <!-- Modal -->
+            <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Авторизация</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form method="post">
+                                <div>
+                                    <label>Имя пользователя:</label>
+                                    <input type="text" value="Имя пользователя">
+                                </div>
+                                <div>
+                                    <label>Пароль:</label>
+                                    <input type="text" value="Пароль">
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button type="button" class="btn btn-primary">Войти</button>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+
+            <a href="/registration">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationModal">
+                    Регистрация
+                </button>
+            </a>
+
+            <!-- Modal -->
+            <!--<div class="modal fade" id="RegistrationModal" tabindex="-1" role="dialog" aria-labelledby="RegistrationModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="RegistrationModalLabel">Регистрация</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form method="post">
+                                <div>
+                                    <label>Имя пользователя:</label>
+                                    <input type="text" value="Имя пользователя">
+                                </div>
+                                <div>
+                                    <label>Пароль:</label>
+                                    <input type="text" value="Пароль">
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button type="button" class="btn btn-primary">Зарегистрироваться</button>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+
+
+            <a th:if="${auth}" href="/logout">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationModal">
+                    Выйти
+                </button>
+            </a>
+
+
+            <div th:if="${auth}">
+                <p>You are authenticated.</p>
+
+            </div>
+
+        </div>
+    </div>
+</nav>
+<h1 style="text-align: center">Регистрация:</h1>
+<div class="main">
+
+
+    <form th:method="POST" th:action="@{/registration}" th:object="${user}">
+        <label for="username">Введите имя пользователя: </label>
+        <input type="text" th:field="*{email}" id="username"/>
+        <!--<div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{email}">Username Error</div>-->
+        <br/>
+
+
+        <label for="l-name">Введите фамилию: </label>
+        <input type="text" th:field="*{lastName}" id="l-name"/>
+        <!--<div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Year of birth Error-->
+
+        <br/>
+        <label for="f-name">Введите имя: </label>
+        <input type="text" th:field="*{firstName}" id="f-name"/>
+        <!--<div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Year of birth Error-->
+        <br/>
+
+        <br/>
+        <label for="otch">Введите отчество: </label>
+        <input type="text" th:field="*{otchestvo}" id="otch"/>
+        <!--<div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Year of birth Error-->
+
+
+        <br/>
+        <label for="password">Введите пароль: </label>
+        <input type="password" th:field="*{password}" id="password"/>
+        <!--<div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>-->
+        <br/>
+        <input type="submit" value="Sign up!"/>
+    </form>
+</div>
+
+
 
 </body>
 </html>
