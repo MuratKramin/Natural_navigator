@@ -35,10 +35,14 @@ public class BatchALS extends AbstractALS {
                 if (rating > 0d) {
                     double error = rating - predict(factors, row, col);
                     for (int k = 0; k < this.rank; k++) {
-                        final double _uf = item_factors.getEntry(k, col) + this.alpha * (2.0 * error * user_factors.getEntry(row, k) - this.beta * item_factors.getEntry(k, col));
+                        final double _uf = item_factors.getEntry(k, col) +
+                                this.alpha * (2.0 * error * user_factors.getEntry(row, k) -
+                                        this.beta * item_factors.getEntry(k, col));
                         item_factors.setEntry(k, col, _uf);
 
-                        final double _if = user_factors.getEntry(row, k) + this.alpha * (2.0 * error * item_factors.getEntry(k, col) - this.beta * user_factors.getEntry(row, k));
+                        final double _if = user_factors.getEntry(row, k) +
+                                this.alpha * (2.0 * error * item_factors.getEntry(k, col) -
+                                        this.beta * user_factors.getEntry(row, k));
                         user_factors.setEntry(row, k, _if);
                     }
                 }
