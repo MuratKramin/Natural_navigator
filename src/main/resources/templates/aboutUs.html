@@ -9,6 +9,46 @@
 
 </head>
 <body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"><!--<img src="https://sun9-60.userapi.com/impg/yDW09ThZm9mH92FMVJoQjLSsJX8RecNoUEZTHQ/oPLsVZ38OiE.jpg?size=885x461&quality=95&sign=cf10cd34589a7c7469a294919a11f728&type=album" width="30%" height="auto">-->Природный навигатор</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/findHotels">Главная</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/aboutUs">О нас</a>
+          </li>
+        </ul>
+
+
+        <a th:if="${auth==null}" href="/login">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Войти
+          </button>
+        </a>
+
+        <a th:if="${auth}" href="/logout">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationModal">
+            Выйти
+          </button>
+        </a>
+
+        <a th:if="${auth==null}" href="/registration">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationModal">
+            Регистрация
+          </button>
+        </a>
+
+      </div>
+    </div>
+  </nav>
+
   <h2>
     О нас:
   </h2>

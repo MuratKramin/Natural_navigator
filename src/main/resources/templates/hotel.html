@@ -123,7 +123,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Природный навигатор</a>
+      <a class="navbar-brand" href="#"><!--<img src="https://sun9-60.userapi.com/impg/yDW09ThZm9mH92FMVJoQjLSsJX8RecNoUEZTHQ/oPLsVZ38OiE.jpg?size=885x461&quality=95&sign=cf10cd34589a7c7469a294919a11f728&type=album" width="30%" height="auto">-->Природный навигатор</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -132,34 +132,36 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/findHotels">Главная</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-          </li>
+          <!--<li class="nav-item">
+            <a class="nav-link" href="/aboutUs">О нас</a>
+          </li>-->
         </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+
+
+        <a th:if="${auth==null}" href="/login">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Войти
+          </button>
+        </a>
+
+        <a th:if="${auth}" href="/logout">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationModal">
+            Выйти
+          </button>
+        </a>
+
+        <a th:if="${auth==null}" href="/registration">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationModal">
+            Регистрация
+          </button>
+        </a>
+
       </div>
     </div>
   </nav>
 
 
-  <h2 th:text=${hotel.getName}></h2>
+  <h2 th:text=${hotel.getName} style="margin-left: 5%;margin-bottom: 5px"></h2>
   <div class="img_desc" >
     <div th:id="${hotel.id}" class="carousel  slide">
       <div class="carousel-inner">

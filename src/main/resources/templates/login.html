@@ -115,112 +115,17 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/findHotels">Главная</a>
                     </li>
-                    <li class="nav-item">
+                    <!--<li class="nav-item">
                         <a class="nav-link" href="/aboutUs">О нас</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>
+                    </li>-->
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
 
-                <!--<button class="btn btn-outline-success" type="button" >Войти</button>-->
 
-                <!-- Button trigger modal -->
-                <a href="/login">
+                <a th:if="${auth==null}" href="/login">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Войти
                     </button>
                 </a>
-
-                <!-- Modal -->
-                <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Авторизация</h5>
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-
-                            <div class="modal-body">
-                                <form method="post">
-                                    <div>
-                                        <label>Имя пользователя:</label>
-                                        <input type="text" value="Имя пользователя">
-                                    </div>
-                                    <div>
-                                        <label>Пароль:</label>
-                                        <input type="text" value="Пароль">
-                                    </div>
-
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                                <button type="button" class="btn btn-primary">Войти</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
-
-
-                <a href="/registration">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationModal">
-                        Регистрация
-                    </button>
-                </a>
-
-                <!-- Modal -->
-                <!--<div class="modal fade" id="RegistrationModal" tabindex="-1" role="dialog" aria-labelledby="RegistrationModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="RegistrationModalLabel">Регистрация</h5>
-                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-
-                            <div class="modal-body">
-                                <form method="post">
-                                    <div>
-                                        <label>Имя пользователя:</label>
-                                        <input type="text" value="Имя пользователя">
-                                    </div>
-                                    <div>
-                                        <label>Пароль:</label>
-                                        <input type="text" value="Пароль">
-                                    </div>
-
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                                <button type="button" class="btn btn-primary">Зарегистрироваться</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
-
-
 
                 <a th:if="${auth}" href="/logout">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationModal">
@@ -228,11 +133,11 @@
                     </button>
                 </a>
 
-
-                <div th:if="${auth}">
-                    <p>You are authenticated.</p>
-
-                </div>
+                <a th:if="${auth==null}" href="/registration">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationModal">
+                        Регистрация
+                    </button>
+                </a>
 
             </div>
         </div>

@@ -102,139 +102,45 @@
 
 </style>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#"><!--<img src="https://sun9-60.userapi.com/impg/yDW09ThZm9mH92FMVJoQjLSsJX8RecNoUEZTHQ/oPLsVZ38OiE.jpg?size=885x461&quality=95&sign=cf10cd34589a7c7469a294919a11f728&type=album" width="30%" height="auto">-->Природный навигатор</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/findHotels">Главная</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/aboutUs">О нас</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-
-            <!--<button class="btn btn-outline-success" type="button" >Войти</button>-->
-
-            <!-- Button trigger modal -->
-            <a href="/login">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Войти
-                </button>
-            </a>
-
-            <!-- Modal -->
-            <!--<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Авторизация</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-
-                        <div class="modal-body">
-                            <form method="post">
-                                <div>
-                                    <label>Имя пользователя:</label>
-                                    <input type="text" value="Имя пользователя">
-                                </div>
-                                <div>
-                                    <label>Пароль:</label>
-                                    <input type="text" value="Пароль">
-                                </div>
-
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                            <button type="button" class="btn btn-primary">Войти</button>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><!--<img src="https://sun9-60.userapi.com/impg/yDW09ThZm9mH92FMVJoQjLSsJX8RecNoUEZTHQ/oPLsVZ38OiE.jpg?size=885x461&quality=95&sign=cf10cd34589a7c7469a294919a11f728&type=album" width="30%" height="auto">-->Природный навигатор</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/findHotels">Главная</a>
+                    </li>
+                    <!--<li class="nav-item">
+                        <a class="nav-link" href="/aboutUs">О нас</a>
+                    </li>-->
+                </ul>
 
 
-            <a href="/registration">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationModal">
-                    Регистрация
-                </button>
-            </a>
+                <a th:if="${auth==null}" href="/login">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Войти
+                    </button>
+                </a>
 
-            <!-- Modal -->
-            <!--<div class="modal fade" id="RegistrationModal" tabindex="-1" role="dialog" aria-labelledby="RegistrationModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
+                <a th:if="${auth}" href="/logout">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationModal">
+                        Выйти
+                    </button>
+                </a>
 
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="RegistrationModalLabel">Регистрация</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-
-                        <div class="modal-body">
-                            <form method="post">
-                                <div>
-                                    <label>Имя пользователя:</label>
-                                    <input type="text" value="Имя пользователя">
-                                </div>
-                                <div>
-                                    <label>Пароль:</label>
-                                    <input type="text" value="Пароль">
-                                </div>
-
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                            <button type="button" class="btn btn-primary">Зарегистрироваться</button>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-
-
-
-            <a th:if="${auth}" href="/logout">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationModal">
-                    Выйти
-                </button>
-            </a>
-
-
-            <div th:if="${auth}">
-                <p>You are authenticated.</p>
+                <a th:if="${auth==null}" href="/registration">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RegistrationModal">
+                        Регистрация
+                    </button>
+                </a>
 
             </div>
-
         </div>
-    </div>
-</nav>
+    </nav>
+
 <h1 style="text-align: center">Регистрация:</h1>
 <div class="main">
 

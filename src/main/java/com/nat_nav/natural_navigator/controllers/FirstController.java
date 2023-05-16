@@ -138,7 +138,7 @@ public class FirstController {
 
         HashMap<Double,Hotel> HotelTotal=new HashMap<>() ;
         for(Hotel hotel:BestHotels){
-            System.out.println(hotel.getId());
+            //System.out.println(hotel.getId());
             HotelTotal.put(hotelRepository.getTotal(family,
                     children,
                     the_youth,
@@ -161,25 +161,55 @@ public class FirstController {
 
         Map<Double, Hotel> SortedBestHotels = new TreeMap<>(HotelTotal).descendingMap();
 
-        HashMap<Double,Hotel> HotelsMapNoTotal=new HashMap<>() ;
-        //System.out.println(hotelRepository.SortById().size());
-        for(Hotel hotel:hotelRepository.SortById()){
-            //System.out.println(hotel.getName());
-            HotelsMapNoTotal.put((double)hotel.getId(),hotel);
+        Map<Double,Hotel> HotelsMapNoTotal=new TreeMap<>() ;
+        List<Hotel> recommendedHotels = null;
+        if(authentication!=null){
+            Optional<User> user1 = userRepository.findByEmail(authentication.getName());
+            recommendedHotels = recommendationService.getRecommendedHotels(user1.get().getId());
+        } else{
+            recommendedHotels = recommendationService.getRecommendedHotels(1);
         }
-        System.out.println(HotelsMapNoTotal);
+
+
+        //System.out.println(hotelRepository.SortById().size());
+        double id_count=1;
+        for(Hotel hotel:recommendedHotels){ //здесь
+            System.out.println(hotel.getName());
+            HotelsMapNoTotal.put(id_count,hotel);
+            id_count++;
+        }
+        //System.out.println(HotelsMapNoTotal);
+
+
+        System.out.println("recHash:");
+        for(Map.Entry i:HotelsMapNoTotal.entrySet()){
+            System.out.println(i.getKey());
+        }
+
+        System.out.println("TOOOOOOOOOP3");
+        Map<Double,Hotel> TopDownF3=new TreeMap<>();
+        Iterator<Map.Entry<Double,Hotel>> iterator=SortedBestHotels.entrySet().iterator();
+        for(int i=0;iterator.hasNext();i++){
+            Map.Entry<Double,Hotel> pair = iterator.next();
+            if(i>=3)
+            TopDownF3.put(pair.getKey(),pair.getValue());
+            //System.out.println(pair.getValue().getName());
+        }
+        Map<Double,Hotel> TopDown3=new TreeMap<>(TopDownF3).descendingMap();
+
+
 
         if(comfort==0){
             model.addAttribute("hotelTotal",HotelsMapNoTotal);
         } else{
-            model.addAttribute("hotelTotal",SortedBestHotels);
+            model.addAttribute("hotelTotal",TopDown3);
         }
 
         System.out.println("TOOOOOOOOOP3");
         Map<Double,Hotel> TopF3=new TreeMap<>();
-        Iterator<Map.Entry<Double,Hotel>> iterator=SortedBestHotels.entrySet().iterator();
-        for(int i=0;i<3&& iterator.hasNext();i++){
-            Map.Entry<Double,Hotel> pair = iterator.next();
+        Iterator<Map.Entry<Double,Hotel>> iterator2=SortedBestHotels.entrySet().iterator();
+        for(int i=0;i<3&& iterator2.hasNext();i++){
+            Map.Entry<Double,Hotel> pair = iterator2.next();
             TopF3.put(pair.getKey(),pair.getValue());
             //System.out.println(pair.getValue().getName());
         }
@@ -198,9 +228,23 @@ public class FirstController {
 
         if(authentication!=null){
             Optional<User> user = userRepository.findByEmail(authentication.getName());
-            model.addAttribute("recommededHotels",recommendationService.getRecommendedHotels(user.get().getId()));
+            System.out.println("userid"+(user.get().getId()));
+            model.addAttribute("recommededHotels",recommendedHotels);
         } else {
             model.addAttribute("recommededHotels",recommendationService.getRecommendedHotels(4));
+        }
+
+        System.out.println("rec:");
+        for(Hotel i:recommendedHotels){
+            System.out.println(i.getName());
+        }
+
+        if(comfort==0){
+            int totalCounter=1;
+            model.addAttribute("totalCounter",totalCounter);
+        } else{
+            int totalCounter=4;
+            model.addAttribute("totalCounter",totalCounter);
         }
 
 
