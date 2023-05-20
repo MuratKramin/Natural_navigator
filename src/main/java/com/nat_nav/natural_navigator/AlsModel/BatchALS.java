@@ -69,6 +69,7 @@ public class BatchALS extends AbstractALS {
             mse = squaredErrorSum / nnzCount;
         }
 
+        if(mse<0.01)
         // Выводим MSE в консоль
         System.out.println("Mean Squared Error (MSE): " + mse);
 

@@ -33,8 +33,6 @@ public class RecommendationService {
         this.residenceHistoryRepository = residenceHistoryRepository;
     }
 
-
-
     public List<Hotel> getRecommendedHotels(int userId){
         List<Hotel> recommendedHotels=new ArrayList<>();
 
@@ -45,17 +43,6 @@ public class RecommendationService {
         double alpha=0.01;
         double beta =0.01;
         List<Rating> ratings=new ArrayList<>(nUsers);
-
-        /*for (User user:userRepository.findAll()) {
-            for (ResidenceHistory visit:user.getResidenceHistoryList()) {
-                ratings.add(new Rating(user.getId(),visit.getHotel_rev().getId(),visit.getGrade()));
-            }
-        }*/
-        /*ratings.add(new Rating(1,5,4));
-        ratings.add(new Rating(2,1,3));
-        ratings.add(new Rating(3,2,5));
-        ratings.add(new Rating(4,3,3));
-        ratings.add(new Rating(5,4,0));*/
 
         for(Object[] obj : residenceHistoryRepository.findRatings()){
 
@@ -73,6 +60,17 @@ public class RecommendationService {
         System.out.println(R.getRowDimension());
         System.out.println("---");
         LatentFactors factors = LatentFactors.create(nUsers, nItems, rank);
+
+        System.out.println("factor//");
+        for(int i =0;i<R.getRowDimension();i++){
+            for (int j=0;j<R.getColumnDimension();j++){
+                System.out.print(R.getEntry(i,j));
+                System.out.print("\t\t");
+            }
+            System.out.println();
+        }
+        System.out.println(R);
+
         BatchALS als = new BatchALS(R, rank, alpha, beta);
         for(int iter = 0 ; iter < n ; iter++) {
             factors = als.run(factors);
@@ -111,7 +109,6 @@ public class RecommendationService {
             Map.Entry<Double,Integer> pair = iterator.next();
             recommendedHotels.add(hotelRepository.getReferenceById(pair.getValue()));
         }
-
 
         return recommendedHotels;
     }

@@ -90,72 +90,6 @@ public class FirstController {
         int the_youth  = (campaign!=null&&campaign.equals("the_youth")) ? 1:0;
         int old_friends  = (campaign!=null&&campaign.equals("old_friends")) ? 1:0;
 
-        /*List<Hotel>BestHotels=hotelService.getBestHotels(family,
-                children,
-                the_youth,
-                old_friends,
-                comfort,
-                distance,
-                price,
-                activity,
-                safety,
-                active_recreation_on_the_water,
-                fishing,
-                football,
-                volleyball,
-                table_tennis,
-                tennis,
-                cycling,
-                distance_from_Kazan,
-                cost_of_stay_per_day,1,1,1,1,1,qty,days);
-
-        HashMap<Double,Hotel> HotelTotal=new HashMap<>() ;
-        for(Hotel hotel:BestHotels){
-            HotelTotal.put(hotelService.getTotal(family,
-                    children,
-                    the_youth,
-                    old_friends,
-                    comfort,
-                    distance,
-                    price,
-                    activity,
-                    safety,
-                    active_recreation_on_the_water,
-                    fishing,
-                    football,
-                    volleyball,
-                    table_tennis,
-                    tennis,
-                    cycling,
-                    distance_from_Kazan,
-                    cost_of_stay_per_day,1,1,1,1,1,qty,days,hotel.getId()),hotel);
-        }*/
-
-        /*Map<Double, Hotel> SortedBestHotels = hotelService.getSortedBestHotels(family,
-                children,
-                the_youth,
-                old_friends,
-                comfort,
-                distance,
-                price,
-                activity,
-                safety,
-                active_recreation_on_the_water,
-                fishing,
-                football,
-                volleyball,
-                table_tennis,
-                tennis,
-                cycling,
-                distance_from_Kazan,
-                cost_of_stay_per_day,1,1,1,1,1,qty,days);*/
-
-
-
-
-
-
-
         if(comfort==0){
             List<Hotel> recommendedHotels = null;
             if(authentication!=null){
@@ -221,31 +155,20 @@ public class FirstController {
             model.addAttribute("totalCounter",totalCounter);
         }
 
-
-
         boolean auth = SecurityContextHolder.getContext().getAuthentication().getName()=="anonymousUser";
         model.addAttribute("auth",!auth);
 
-        /*if(authentication!=null){
-            Optional<User> user = userRepository.findByEmail(authentication.getName());
-            //System.out.println("userid"+(user.get().getId()));
-            model.addAttribute("recommededHotels",recommendedHotels);
-        } else {
-            model.addAttribute("recommededHotels",recommendationService.getRecommendedHotels(4));
-        }*/
-
-        /*System.out.println("rec:");
-        for(Hotel i:recommendedHotels){
-            System.out.println(i.getName());
-        }*/
-
-        /*if(comfort==0){
-            int totalCounter=1;
-            model.addAttribute("totalCounter",totalCounter);
-        } else{
-            int totalCounter=4;
-            model.addAttribute("totalCounter",totalCounter);
-        }*/
+        System.out.println("----------------------------");
+        System.out.println("Matrix of ratings:");
+        for(Object[] obj : residenceHistoryRepository.findRatings()){
+            System.out.print(obj[0]);
+            System.out.print("\t");
+            System.out.print(obj[1]);
+            System.out.print("\t");
+            System.out.println(obj[2]);
+        }
+        System.out.println("--------------------------------");
+        //recommendationService.getRecommendedHotels(1);
 
         return "index";
     }
@@ -259,27 +182,16 @@ public class FirstController {
 
         model.addAttribute("residenceHistory",hotelRepository.getReferenceById(id).getResidenceHistoryList());
 
-
         ResidenceHistory new_residenceHistory= new ResidenceHistory();
         model.addAttribute("new_residenceHistory",new_residenceHistory);
 
-        System.out.println("----------------------------");
-        System.out.println("Matrix of recommendations:");
-        for(Object[] obj : residenceHistoryRepository.findRatings()){
-            System.out.print(obj[0]);
-            System.out.print(obj[1]);
-            System.out.println(obj[2]);
-        }
-        System.out.println("--------------------------------");
 
-        recommendationService.getRecommendedHotels(1);
 
         return "hotel";
     }
 
     @GetMapping("/aboutUs")
     public String aboutUs(){
-
         hotelRepository.getReferenceById(1).getPhotoList().size();
         return "aboutUs";
     }
@@ -289,6 +201,7 @@ public class FirstController {
         return "login";
     }
     private final UserValidator userValidator;
+    private final NewResidenceHistoryService newResidenceHistoryService;
     public FirstController(UserValidator userValidator, RegistrationService registrationService, NewResidenceHistoryService newResidenceHistoryService) {
         this.userValidator = userValidator;
         this.registrationService = registrationService;
@@ -309,18 +222,14 @@ public class FirstController {
         return "redirect:/login";
     }
 
-    private final NewResidenceHistoryService newResidenceHistoryService;
-
     @PostMapping("/hotel")
     public String addReview(@RequestParam(value = "id") int hotelId,
-                            @ModelAttribute("new_residenceHistory") ResidenceHistory new_residenceHistory, Authentication authentication/*,Model model*/) {
+                            @ModelAttribute("new_residenceHistory") ResidenceHistory new_residenceHistory, Authentication authentication) {
 
         Optional<User> user = userRepository.findByEmail(authentication.getName());
 
-
         new_residenceHistory.setHotel_rev(hotelRepository.getReferenceById(hotelId));
         new_residenceHistory.setUsers_rev(user.get());
-
 
         residenceHistoryRepository.insert(new_residenceHistory.getCheckInDate(),new_residenceHistory.getCheckOutDate(),
                 new_residenceHistory.getTotalCost(),new_residenceHistory.getReview(),new_residenceHistory.getGrade(),user.get().getId(),hotelId);
