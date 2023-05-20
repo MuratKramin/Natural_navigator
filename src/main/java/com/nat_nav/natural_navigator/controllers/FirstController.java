@@ -131,7 +131,7 @@ public class FirstController {
                     cost_of_stay_per_day,1,1,1,1,1,qty,days,hotel.getId()),hotel);
         }*/
 
-        Map<Double, Hotel> SortedBestHotels = hotelService.getSortedBestHotels(family,
+        /*Map<Double, Hotel> SortedBestHotels = hotelService.getSortedBestHotels(family,
                 children,
                 the_youth,
                 old_friends,
@@ -148,117 +148,104 @@ public class FirstController {
                 tennis,
                 cycling,
                 distance_from_Kazan,
-                cost_of_stay_per_day,1,1,1,1,1,qty,days);
+                cost_of_stay_per_day,1,1,1,1,1,qty,days);*/
 
 
-        List<Hotel> recommendedHotels = null;
-        if(authentication!=null){
-            Optional<User> user1 = userService.findByEmail(authentication.getName());
-            recommendedHotels = recommendationService.getRecommendedHotels(user1.get().getId());
-        } else{
-            recommendedHotels = recommendationService.getRecommendedHotels(4);
-        }
 
-        Map<Double,Hotel> HotelsMapNoTotal=new TreeMap<>() ;
-        double id_count=1;
-        for(Hotel hotel:recommendedHotels){ //здесь
-            System.out.println(hotel.getName());
-            HotelsMapNoTotal.put(id_count,hotel);
-            id_count++;
-        }
 
-        /*System.out.println("recHash:");
-        for(Map.Entry i:HotelsMapNoTotal.entrySet()){
-            System.out.println(i.getKey());
-        }*/
-
-        /*Map<Double,Hotel> TopDownF3=new TreeMap<>();
-        Iterator<Map.Entry<Double,Hotel>> iterator=SortedBestHotels.entrySet().iterator();
-        for(int i=0;iterator.hasNext();i++){
-            Map.Entry<Double,Hotel> pair = iterator.next();
-            if(i>=3)
-                TopDownF3.put(pair.getKey(),pair.getValue());
-            //System.out.println(pair.getValue().getName());
-        }*/
-        Map<Double,Hotel> TopDown3=hotelService.TopDown3(family,
-                children,
-                the_youth,
-                old_friends,
-                comfort,
-                distance,
-                price,
-                activity,
-                safety,
-                active_recreation_on_the_water,
-                fishing,
-                football,
-                volleyball,
-                table_tennis,
-                tennis,
-                cycling,
-                distance_from_Kazan,
-                cost_of_stay_per_day,1,1,1,1,1,qty,days);
 
 
 
         if(comfort==0){
-            model.addAttribute("hotelTotal",HotelsMapNoTotal);
+            List<Hotel> recommendedHotels = null;
+            if(authentication!=null){
+                Optional<User> user1 = userService.findByEmail(authentication.getName());
+                recommendedHotels = recommendationService.getRecommendedHotels(user1.get().getId());
+            } else{
+                recommendedHotels = recommendationService.getRecommendedHotels(4);
+            }
+
+            Map<Double,Hotel> HotelsMapNoTotalRecommended=new TreeMap<>() ;
+            double id_count=1;
+            for(Hotel hotel:recommendedHotels){ //здесь
+                System.out.println(hotel.getName());
+                HotelsMapNoTotalRecommended.put(id_count,hotel);
+                id_count++;
+            }
+            model.addAttribute("hotelTotal",HotelsMapNoTotalRecommended);
+
+            int totalCounter=1;
+            model.addAttribute("totalCounter",totalCounter);
         } else{
+            Map<Double,Hotel> Top3=hotelService.Top3(family,
+                    children,
+                    the_youth,
+                    old_friends,
+                    comfort,
+                    distance,
+                    price,
+                    activity,
+                    safety,
+                    active_recreation_on_the_water,
+                    fishing,
+                    football,
+                    volleyball,
+                    table_tennis,
+                    tennis,
+                    cycling,
+                    distance_from_Kazan,
+                    cost_of_stay_per_day,1,1,1,1,1,qty,days);
+
+            model.addAttribute("topHotels",Top3);
+            Map<Double,Hotel> TopDown3=hotelService.TopDown3(family,
+                    children,
+                    the_youth,
+                    old_friends,
+                    comfort,
+                    distance,
+                    price,
+                    activity,
+                    safety,
+                    active_recreation_on_the_water,
+                    fishing,
+                    football,
+                    volleyball,
+                    table_tennis,
+                    tennis,
+                    cycling,
+                    distance_from_Kazan,
+                    cost_of_stay_per_day,1,1,1,1,1,qty,days);
             model.addAttribute("hotelTotal",TopDown3);
+
+            int totalCounter=4;
+            model.addAttribute("totalCounter",totalCounter);
         }
 
-        /*Map<Double,Hotel> TopF3=new TreeMap<>();
-        Iterator<Map.Entry<Double,Hotel>> iterator2=SortedBestHotels.entrySet().iterator();
-        for(int i=0;i<3&& iterator2.hasNext();i++){
-            Map.Entry<Double,Hotel> pair = iterator2.next();
-            TopF3.put(pair.getKey(),pair.getValue());
-        }
-        Map<Double,Hotel> Top3=new TreeMap<>(TopF3).descendingMap();*/
 
-        Map<Double,Hotel> Top3=hotelService.Top3(family,
-                children,
-                the_youth,
-                old_friends,
-                comfort,
-                distance,
-                price,
-                activity,
-                safety,
-                active_recreation_on_the_water,
-                fishing,
-                football,
-                volleyball,
-                table_tennis,
-                tennis,
-                cycling,
-                distance_from_Kazan,
-                cost_of_stay_per_day,1,1,1,1,1,qty,days);
-
-        model.addAttribute("topHotels",Top3);
 
         boolean auth = SecurityContextHolder.getContext().getAuthentication().getName()=="anonymousUser";
         model.addAttribute("auth",!auth);
 
-        if(authentication!=null){
+        /*if(authentication!=null){
             Optional<User> user = userRepository.findByEmail(authentication.getName());
-            System.out.println("userid"+(user.get().getId()));
+            //System.out.println("userid"+(user.get().getId()));
             model.addAttribute("recommededHotels",recommendedHotels);
         } else {
             model.addAttribute("recommededHotels",recommendationService.getRecommendedHotels(4));
-        }
+        }*/
 
         /*System.out.println("rec:");
         for(Hotel i:recommendedHotels){
             System.out.println(i.getName());
         }*/
 
-        if(comfort==0){
+        /*if(comfort==0){
             int totalCounter=1;
             model.addAttribute("totalCounter",totalCounter);
         } else{
             int totalCounter=4;
             model.addAttribute("totalCounter",totalCounter);
-        }
+        }*/
 
         return "index";
     }
