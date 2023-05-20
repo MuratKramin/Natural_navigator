@@ -192,7 +192,7 @@ public class FirstController {
         for(int i=0;iterator.hasNext();i++){
             Map.Entry<Double,Hotel> pair = iterator.next();
             if(i>=3)
-            TopDownF3.put(pair.getKey(),pair.getValue());
+                TopDownF3.put(pair.getKey(),pair.getValue());
             //System.out.println(pair.getValue().getName());
         }
         Map<Double,Hotel> TopDown3=new TreeMap<>(TopDownF3).descendingMap();
