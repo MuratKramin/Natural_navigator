@@ -29,11 +29,16 @@ public class BatchALS extends AbstractALS {
         final RealMatrix user_factors = factors.getUsers();
         final RealMatrix item_factors = factors.getItems();
 
+        double squaredErrorSum = 0.0; // Сумма квадратичных ошибок
+
         for (int row = 0 ; row < rows ; row++) {
             for (int col = 0 ; col < cols ; col++) {
                 final double rating = this.ratings.getEntry(row, col);
                 if (rating > 0d) {
                     double error = rating - predict(factors, row, col);
+
+                    squaredErrorSum += error * error; // Добавляем квадратичную ошибку
+
                     for (int k = 0; k < this.rank; k++) {
                         final double _uf = item_factors.getEntry(k, col) +
                                 this.alpha * (2.0 * error * user_factors.getEntry(row, k) -
@@ -48,6 +53,24 @@ public class BatchALS extends AbstractALS {
                 }
             }
         }
+
+        int nnzCount = 0;
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                if (ratings.getEntry(row, col) > 0) {
+                    nnzCount++;
+                }
+            }
+        }
+
+        // Вычисляем MSE
+        double mse=0;
+        if (nnzCount > 0) {
+            mse = squaredErrorSum / nnzCount;
+        }
+
+        // Выводим MSE в консоль
+        System.out.println("Mean Squared Error (MSE): " + mse);
 
         return new LatentFactors(user_factors, item_factors);
 

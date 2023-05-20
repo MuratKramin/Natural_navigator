@@ -167,7 +167,7 @@ public class FirstController {
             Optional<User> user1 = userRepository.findByEmail(authentication.getName());
             recommendedHotels = recommendationService.getRecommendedHotels(user1.get().getId());
         } else{
-            recommendedHotels = recommendationService.getRecommendedHotels(1);
+            recommendedHotels = recommendationService.getRecommendedHotels(4);
         }
 
 
