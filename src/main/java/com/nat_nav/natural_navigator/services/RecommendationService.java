@@ -55,13 +55,14 @@ public class RecommendationService {
 
 
         SparseRealMatrix R = ALSUtils.toMatrix(ratings,nUsers,nItems);
-        System.out.println("---");
+        /*System.out.println("---");
         System.out.println(R.getColumnDimension());
         System.out.println(R.getRowDimension());
-        System.out.println("---");
+        System.out.println("---");*/
         LatentFactors factors = LatentFactors.create(nUsers, nItems, rank);
 
-        System.out.println("factor//");
+        System.out.println("Matrix://");
+
         for(int i =0;i<R.getRowDimension();i++){
             for (int j=0;j<R.getColumnDimension();j++){
                 System.out.print(R.getEntry(i,j));
@@ -75,6 +76,26 @@ public class RecommendationService {
         for(int iter = 0 ; iter < n ; iter++) {
             factors = als.run(factors);
         }
+
+        System.out.println("UserFactors:");
+        for(int i =0;i<factors.getUsers().getRowDimension();i++){
+            for (int j=0;j<factors.getUsers().getColumnDimension();j++){
+                System.out.print(new BigDecimal(factors.getUsers().getEntry(i,j)).round(new MathContext(5, RoundingMode.HALF_UP)));
+                System.out.print("\t\t");
+            }
+            System.out.println();
+        }
+
+        System.out.println("ItemFactors:");
+        for(int i =0;i<factors.getItems().getRowDimension();i++){
+            for (int j=0;j<factors.getItems().getColumnDimension();j++){
+                System.out.print(new BigDecimal(factors.getItems().getEntry(i,j)).round(new MathContext(5, RoundingMode.HALF_UP)));
+                System.out.print("\t\t");
+            }
+            System.out.println();
+        }
+
+
         RealMatrix approximation = ALSUtils.approximate(factors);
 
         System.out.println(approximation);

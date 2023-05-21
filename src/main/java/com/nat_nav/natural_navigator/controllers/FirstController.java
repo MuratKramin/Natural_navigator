@@ -185,8 +185,6 @@ public class FirstController {
         ResidenceHistory new_residenceHistory= new ResidenceHistory();
         model.addAttribute("new_residenceHistory",new_residenceHistory);
 
-
-
         return "hotel";
     }
 
@@ -233,7 +231,6 @@ public class FirstController {
 
         residenceHistoryRepository.insert(new_residenceHistory.getCheckInDate(),new_residenceHistory.getCheckOutDate(),
                 new_residenceHistory.getTotalCost(),new_residenceHistory.getReview(),new_residenceHistory.getGrade(),user.get().getId(),hotelId);
-
 
         return "redirect:/hotel?id="+hotelId;
     }

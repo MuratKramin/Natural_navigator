@@ -10,9 +10,9 @@ import java.util.List;
 public class ALSUtils {
 
     /**
-     * Converts a list of {@link Rating} into a sparse ratings matrix ({@link SparseRealMatrix}).
-     * @param ratings a {@link List} of {@link Rating}.
-     * @return A sparse ratings matrix ({@link SparseRealMatrix}).
+     * Преобразует список {@link Rating} в разреженную матрицу оценок ({@link SparseRealMatrix}).
+     * @param ratings {@link List} {@link Rating}.
+     * @return Разреженная матрица оценок ({@link SparseRealMatrix}).
      */
     public static SparseRealMatrix toMatrix(List<Rating> ratings,int a,int b) {
 
@@ -30,18 +30,18 @@ public class ALSUtils {
     }
 
     /**
-     * Returns the highest user id from a {@link List} of {@link Rating}.
-     * @param ratings A {@link List} of {@link Rating}.
-     * @return The highest user id as an integer.
+     * Возвращает наивысший идентификатор пользователя из {@link List} {@link Rating}.
+     * @param ratings {@link List} {@link Rating}.
+     * @return Самый высокий идентификатор пользователя в виде целого числа.
      */
     public static int maxUser(List<Rating> ratings) {
         return ratings.stream().max(Comparator.comparing(Rating::getUser)).get().getUser();
     }
 
     /**
-     * Returns the highest product id from a {@link List} of {@link Rating}.
-     * @param ratings A {@link List} of {@link Rating}.
-     * @return The highest product id as an integer.
+     * Возвращает наивысший идентификатор продукта из {@link List} {@link Rating}.
+     * @param ratings {@link List} {@link Rating}.
+     * @return Самый высокий идентификатор продукта в виде целого числа.
      */
     public static int maxItem(List<Rating> ratings) {
         return ratings.stream().max(Comparator.comparing(Rating::getItem)).get().getItem();

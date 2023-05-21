@@ -3,22 +3,27 @@ package com.nat_nav.natural_navigator.AlsModel;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.SparseRealMatrix;
 
-public class BatchALS extends AbstractALS {
-
+public class BatchALS {
     private final SparseRealMatrix ratings;
+    private final int rank;
     private final double alpha;
     private final double beta;
-
-
 
     public BatchALS(SparseRealMatrix ratings,
                     int rank,
                     double alpha,
                     double beta) {
-        super(rank);
+        this.rank=rank;
         this.ratings = ratings;
         this.alpha = alpha;
         this.beta = beta;
+    }
+
+    //Метод возвращает произведение скалярного произведения вектора пользователей с индексом i и вектора товаров с индексом j.
+    // Другими словами, метод делает предсказание оценки пользователя i для товара j,
+    // основываясь на данных векторов пользователей и товаров, полученных из объекта LatentFactors.
+    public double predict(LatentFactors factors, int i, int j) {
+        return factors.getUsers().getRowVector(i).dotProduct(factors.getItems().getColumnVector(j));
     }
 
     public LatentFactors run(LatentFactors factors) {
@@ -69,9 +74,9 @@ public class BatchALS extends AbstractALS {
             mse = squaredErrorSum / nnzCount;
         }
 
-        if(mse<0.01)
         // Выводим MSE в консоль
-        System.out.println("Mean Squared Error (MSE): " + mse);
+        if(mse<0.01)
+            System.out.println("Mean Squared Error (MSE): " + mse);
 
         return new LatentFactors(user_factors, item_factors);
 
