@@ -199,11 +199,10 @@ public class FirstController {
         return "login";
     }
     private final UserValidator userValidator;
-    private final NewResidenceHistoryService newResidenceHistoryService;
-    public FirstController(UserValidator userValidator, RegistrationService registrationService, NewResidenceHistoryService newResidenceHistoryService) {
+
+    public FirstController(UserValidator userValidator, RegistrationService registrationService) {
         this.userValidator = userValidator;
         this.registrationService = registrationService;
-        this.newResidenceHistoryService = newResidenceHistoryService;
     }
     private final RegistrationService registrationService;
     @GetMapping("/registration")
