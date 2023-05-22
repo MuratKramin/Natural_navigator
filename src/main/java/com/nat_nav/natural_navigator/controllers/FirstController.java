@@ -7,6 +7,9 @@ import com.nat_nav.natural_navigator.entity.User;
 import com.nat_nav.natural_navigator.repositories.*;
 import com.nat_nav.natural_navigator.services.*;
 import com.nat_nav.natural_navigator.util.UserValidator;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.*;
 
@@ -62,7 +66,7 @@ public class FirstController {
                         @RequestParam(value = "distance_from_Kazan",required = false,defaultValue = "0") int distance_from_Kazan,
                         @RequestParam(value = "cost_of_stay_per_day",required = false,defaultValue = "0") int cost_of_stay_per_day,
 
-                        Model model,Authentication authentication
+                        Model model,Authentication authentication, HttpSession session, HttpServletResponse response
                         ){
 
         int count = 1;
@@ -170,6 +174,55 @@ public class FirstController {
         System.out.println("--------------------------------");
         //recommendationService.getRecommendedHotels(1);
 
+        Cookie cookie1 = new Cookie("count",Integer.toString(count));
+        response.addCookie(cookie1);
+        Cookie cookie2 = new Cookie("qty",Integer.toString(qty));
+        response.addCookie(cookie2);
+        Cookie cookie3 = new Cookie("days",Integer.toString(days));
+        response.addCookie(cookie3);
+        Cookie cookie4 = new Cookie("campaign",campaign);
+        response.addCookie(cookie4);
+        Cookie cookie5 = new Cookie("children",Integer.toString(children));
+        response.addCookie(cookie5);
+        Cookie cookie6 = new Cookie("comfort",Integer.toString(comfort));
+        response.addCookie(cookie6);
+        Cookie cookie7= new Cookie("distance",Integer.toString(distance));
+        response.addCookie(cookie7);
+        Cookie cookie8 = new Cookie("price",Integer.toString(price));
+        response.addCookie(cookie8);
+        Cookie cookie9 = new Cookie("activity",Integer.toString(activity));
+        response.addCookie(cookie9);
+        Cookie cookie10 = new Cookie("safety",Integer.toString(safety));
+        response.addCookie(cookie10);
+        Cookie cookie11 = new Cookie("active_recreation_on_the_water",Integer.toString(active_recreation_on_the_water));
+        response.addCookie(cookie11);
+        Cookie cookie12 = new Cookie("fishing",Integer.toString(fishing));
+        response.addCookie(cookie12);
+        Cookie cookie13 = new Cookie("football",Integer.toString(football));
+        response.addCookie(cookie13);
+        Cookie cookie14 = new Cookie("volleyball",Integer.toString(volleyball));
+        response.addCookie(cookie14);
+        Cookie cookie15 = new Cookie("table_tennis",Integer.toString(table_tennis));
+        response.addCookie(cookie15);
+        Cookie cookie16 = new Cookie("tennis",Integer.toString(tennis));
+        response.addCookie(cookie16);
+        Cookie cookie17 = new Cookie("cycling",Integer.toString(cycling));
+        response.addCookie(cookie17);
+        Cookie cookie18= new Cookie("distance_from_Kazan",Integer.toString(distance_from_Kazan));
+        response.addCookie(cookie18);
+        Cookie cookie19 = new Cookie("cost_of_stay_per_day",Integer.toString(cost_of_stay_per_day));
+        response.addCookie(cookie19);
+
+
+        Integer count_visit = (Integer) session.getAttribute("count_visit");
+        if (count_visit == null) {
+            count_visit = 1;
+        } else {
+            count_visit++;
+        }
+        session.setAttribute("count_visit", count_visit);
+        model.addAttribute("count_visit", count_visit);
+
         return "index";
     }
 
@@ -184,6 +237,14 @@ public class FirstController {
 
         ResidenceHistory new_residenceHistory= new ResidenceHistory();
         model.addAttribute("new_residenceHistory",new_residenceHistory);
+
+
+
+
+
+
+
+
 
         return "hotel";
     }
