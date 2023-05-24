@@ -45,12 +45,7 @@ public class RecommendationService {
         List<Rating> ratings=new ArrayList<>(nUsers);
 
         for(Object[] obj : residenceHistoryRepository.findRatings()){
-
-            System.out.print(obj[0]);
-            System.out.print(obj[1]);
-            System.out.print(obj[2]);
             ratings.add(new Rating((int) obj[0],(int) obj[1],(Long)obj[2]));
-
         }
 
 
@@ -119,12 +114,9 @@ public class RecommendationService {
         Map<Double,Integer> recMap = new TreeMap<>();
 
         for(int i =0;i<approximation.getColumnDimension();i++){
-            //recommendedHotels.add(hotelRepository.getReferenceById(i));
             recMap.put(approximation.getEntry(userId-1,i),i+1);
         }
         Map<Double,Integer> recMapDesc = new TreeMap<>(recMap).descendingMap();
-        System.out.println(recMapDesc);
-        //Collections.sort(recommendedHotels,Compa);
         Iterator<Map.Entry<Double,Integer>> iterator=recMapDesc.entrySet().iterator();
         for(int i=0;iterator.hasNext();i++){
             Map.Entry<Double,Integer> pair = iterator.next();

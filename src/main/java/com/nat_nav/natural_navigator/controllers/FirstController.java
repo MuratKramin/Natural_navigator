@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -247,6 +248,13 @@ public class FirstController {
 
 
         return "hotel";
+    }
+
+    @GetMapping("/get-cookie")
+    public ResponseEntity<String> getCookie(@CookieValue("distance_from_Kazan") String distance_from_Kazan,
+                                            @CookieValue("cost_of_stay_per_day") String cost_of_stay_per_day) {
+        // Чтение значения cookie и его возврат в ответе
+        return ResponseEntity.ok("Значение cookies: " +'\n'+distance_from_Kazan+'\n'+cost_of_stay_per_day);
     }
 
     @GetMapping("/aboutUs")
